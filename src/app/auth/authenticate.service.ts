@@ -16,7 +16,7 @@ export class AuthenticateService {
   }
 
   authenticate(username: string, password: string) : Observable<any>{
-    return this.http.post<[]>(ApiEndpoints.paths.login,
+    return this.http.post<{ token: string }>(ApiEndpoints.paths.login,
       {username, password},
       {observe: 'response'});
   }

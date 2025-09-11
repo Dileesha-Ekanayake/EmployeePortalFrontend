@@ -1,0 +1,152 @@
+.login-background {
+  background-color: #fafafa;
+}
+
+.login-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 500px;
+  margin: 50px auto;
+  padding: 30px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+  background-color: #ffffff;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  }
+
+  mat-card-header {
+    text-align: center;
+    margin-bottom: 24px;
+
+    mat-card-title {
+      font-size: 26px;
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 8px;
+    }
+
+    mat-card-subtitle {
+      font-size: 16px;
+      color: #6b7280;
+      font-weight: 400;
+    }
+  }
+
+  .full-width {
+    width: 100%;
+    margin-bottom: 20px;
+
+    mat-form-field {
+      transition: transform 0.2s ease;
+
+      &:focus-within {
+        transform: translateY(-1px);
+      }
+
+      .mat-form-field-outline {
+        border-radius: 8px;
+      }
+
+      .mat-form-field-label {
+        color: #6b7280;
+        font-weight: 500;
+      }
+
+      input {
+        font-size: 16px;
+        color: #1f2937;
+        transition: all 0.2s ease;
+
+        &:focus {
+          color: #111827;
+        }
+
+        &::placeholder {
+          color: #9ca3af;
+          transition: opacity 0.2s ease;
+        }
+
+        &:focus::placeholder {
+          opacity: 0.7;
+        }
+      }
+
+      &.mat-focused {
+        .mat-form-field-outline-thick {
+          color: #3b82f6;
+        }
+
+        .mat-form-field-label {
+          color: #3b82f6;
+        }
+      }
+    }
+  }
+
+  .submit-button {
+    width: 100%;
+    height: 50px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 8px;
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px rgba(59, 130, 246, 0.3);
+
+    &:hover {
+      background-color: #2563eb;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+    }
+
+    &:active {
+      transform: translateY(0);
+      box-shadow: 0 1px 3px rgba(59, 130, 246, 0.3);
+    }
+  }
+
+  border: 1px solid #f3f4f6;
+}
+
+mat-form-field {
+  --mat-form-field-container-height: 45px;
+  --mat-form-field-container-vertical-padding: 10px;
+}
+
+.login-card {
+  mat-form-field input:focus {
+    outline: none;
+  }
+
+  .submit-button:focus-visible {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+  }
+}
+
+@media (max-width: 600px) {
+  .login-card {
+    margin: 20px;
+    padding: 24px;
+
+    mat-card-header {
+      margin-bottom: 20px;
+
+      mat-card-title {
+        font-size: 24px;
+      }
+    }
+
+    .submit-button {
+      height: 48px;
+    }
+  }
+}
