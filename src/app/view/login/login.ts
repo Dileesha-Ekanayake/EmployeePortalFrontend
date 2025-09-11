@@ -7,6 +7,7 @@ import {Router} from '@angular/router';
 import {AuthenticateService} from '../../auth/authenticate.service';
 import {MatGridList, MatGridTile} from '@angular/material/grid-list';
 import {Subscription} from 'rxjs';
+import {AuthorizationManagerService} from '../../auth/authorization-manager.service';
 
 @Component({
   selector: 'app-login',
@@ -38,6 +39,7 @@ export class Login implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private router: Router,
     private authenticateService: AuthenticateService,
+    private authorizationManagerService: AuthorizationManagerService
   ) {
 
     this.loginForm = this.formBuilder.group({
@@ -72,6 +74,7 @@ export class Login implements OnInit, OnDestroy {
           console.log(token);
           if (token) {
             localStorage.setItem('authToken', token);
+            this.authorizationManagerService.setLoggedUserDetails();
             this.router.navigateByUrl("Main/portal");
           }
         },

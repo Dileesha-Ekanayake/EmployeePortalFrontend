@@ -1,1 +1,23 @@
-<p>mainwindow works!</p>
+<mat-toolbar>
+  <mat-toolbar-row>
+    <span class="toolbar-left">
+      <mat-icon class="toolbar-icon">group</mat-icon>
+      <div class="toolbar-title">
+        <span>Employee Portal</span>
+        <span>Collaboration Hub</span>
+      </div>
+    </span>
+
+    <span class="toolbar-right">
+      @if (authorizationManagerService.getUserRole().trim().toLowerCase() === 'admin') {
+        <mat-icon class="user-icon">admin_panel_settings</mat-icon>
+      } @else {
+        <mat-icon class="user-icon">person</mat-icon>
+      }
+      <div class="user-details">
+        <label class="username">{{ authorizationManagerService.getUsername() }}</label>
+        <label class="userrole">{{ authorizationManagerService.getUserRole() }}</label>
+      </div>
+    </span>
+  </mat-toolbar-row>
+</mat-toolbar>
