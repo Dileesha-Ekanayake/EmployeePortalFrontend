@@ -5,7 +5,6 @@ import {ApiEndpoints} from '../service/api-endpoint';
 
 /**
  * Service responsible for handling authentication-related operations.
- * Provides methods for user login and OAuth2 redirection.
  */
 @Injectable({
   providedIn: 'root'
