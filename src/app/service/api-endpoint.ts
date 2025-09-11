@@ -11,11 +11,11 @@
  * Keys within the `paths` object contain predefined endpoint paths for accessing different functionalities and resources in the API.
  */
 
-const baseUrl = 'http://localhost:5050';
+const baseUrl = 'https://localhost:5050';
 
 export const ApiEndpoints = {
   baseUrl,
   paths: {
-
+    login: `${baseUrl}/api/Auth/login`,
   }
 } as const;
