@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MatCard, MatCardContent, MatCardHeader, MatCardSubtitle, MatCardTitle} from '@angular/material/card';
 import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {MatFormField, MatInput, MatLabel} from '@angular/material/input';
+import {MatError, MatFormField, MatInput, MatLabel} from '@angular/material/input';
 import {MatButton} from '@angular/material/button';
 import {Router} from '@angular/router';
 import {AuthenticateService} from '../../auth/authenticate.service';
@@ -24,6 +24,7 @@ import {AuthorizationManagerService} from '../../auth/authorization-manager.serv
     MatLabel,
     MatGridList,
     MatGridTile,
+    MatError,
   ],
   templateUrl: './login.html',
   styleUrl: './login.scss',

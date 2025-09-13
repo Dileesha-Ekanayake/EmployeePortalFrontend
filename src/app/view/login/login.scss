@@ -37,55 +37,12 @@
     }
   }
 
-  .full-width {
+
+  mat-form-field {
     width: 100%;
     margin-bottom: 20px;
-
-    mat-form-field {
-      transition: transform 0.2s ease;
-
-      &:focus-within {
-        transform: translateY(-1px);
-      }
-
-      .mat-form-field-outline {
-        border-radius: 8px;
-      }
-
-      .mat-form-field-label {
-        color: #6b7280;
-        font-weight: 500;
-      }
-
-      input {
-        font-size: 16px;
-        color: #1f2937;
-        transition: all 0.2s ease;
-
-        &:focus {
-          color: #111827;
-        }
-
-        &::placeholder {
-          color: #9ca3af;
-          transition: opacity 0.2s ease;
-        }
-
-        &:focus::placeholder {
-          opacity: 0.7;
-        }
-      }
-
-      &.mat-focused {
-        .mat-form-field-outline-thick {
-          color: #3b82f6;
-        }
-
-        .mat-form-field-label {
-          color: #3b82f6;
-        }
-      }
-    }
+    --mat-form-field-container-height: 45px;
+    --mat-form-field-container-vertical-padding: 10px;
   }
 
   .submit-button {
@@ -107,46 +64,12 @@
       box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
     }
 
-    &:active {
-      transform: translateY(0);
-      box-shadow: 0 1px 3px rgba(59, 130, 246, 0.3);
+    &:disabled {
+      background-color: #9ca3af;
+      cursor: not-allowed;
+      opacity: 0.5;
     }
   }
 
   border: 1px solid #f3f4f6;
-}
-
-mat-form-field {
-  --mat-form-field-container-height: 45px;
-  --mat-form-field-container-vertical-padding: 10px;
-}
-
-.login-card {
-  mat-form-field input:focus {
-    outline: none;
-  }
-
-  .submit-button:focus-visible {
-    outline: 2px solid #3b82f6;
-    outline-offset: 2px;
-  }
-}
-
-@media (max-width: 600px) {
-  .login-card {
-    margin: 20px;
-    padding: 24px;
-
-    mat-card-header {
-      margin-bottom: 20px;
-
-      mat-card-title {
-        font-size: 24px;
-      }
-    }
-
-    .submit-button {
-      height: 48px;
-    }
-  }
 }
