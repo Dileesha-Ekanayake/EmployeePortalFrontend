@@ -1,5 +1,29 @@
-<mat-grid-list [cols]="12" rowHeight="4rem">
-  <mat-grid-tile [colspan]="12" [rowspan]="isExpanded ? 5 : 2">
+<mat-grid-list [cols]="12" rowHeight="4rem" gutterSize="0.7rem">
+  <mat-grid-tile colspan="12" rowspan="1">
+    <mat-card class="filter-card">
+      <mat-card-content>
+        <mat-form-field appearance="outline">
+          <mat-label>Filter Posts by Author...</mat-label>
+          <input matInput placeholder="Enter author name" [(ngModel)]="filterAuthorName" (keyup)="filterPostsByAuthor(filterAuthorName)">
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+
+        <div class="filter-buttons-container">
+          <mat-button-toggle-group name="fontStyle" (change)="onFilterChange($event.value)">
+            <mat-button-toggle value="recent">Most Recent</mat-button-toggle>
+            <mat-button-toggle value="liked">Most Liked</mat-button-toggle>
+            <mat-button-toggle value="likedAndRecent">Most Liked & Recent</mat-button-toggle>
+          </mat-button-toggle-group>
+
+          <button mat-icon-button color="primary" (click)="clearFilter()">
+            <mat-icon>clear</mat-icon>
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </mat-grid-tile>
+
+  <mat-grid-tile [colspan]="12" [rowspan]="isExpanded ? 5 : 1">
     <mat-card class="create-post-card">
       <mat-card-content>
         <mat-expansion-panel hideToggle [(expanded)]="isExpanded">
@@ -63,7 +87,7 @@
     <div class="posts-container">
       <div class="posts-grid">
         @for (post of posts; track post.id) {
-          <mat-card class="post-card">
+          <mat-card class="post-card" [ngClass]="{'trending-post' : highLightTrendingPost(post.id) }">
             <mat-card-content>
               <div class="user-info">
                 <div class="user-icon">

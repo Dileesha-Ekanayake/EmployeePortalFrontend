@@ -23,6 +23,7 @@ import {AuthorizationManagerService} from '../../../auth/authorization-manager.s
 import {CommentRequest} from '../../../entity/CommentRequest';
 import {Like} from '../../../entity/Like';
 import {NgClass} from '@angular/common';
+import {MatButtonToggle, MatButtonToggleGroup} from '@angular/material/button-toggle';
 
 @Component({
   selector: 'app-portal',
@@ -47,6 +48,8 @@ import {NgClass} from '@angular/common';
     MatIconButton,
     MatSuffix,
     NgClass,
+    MatButtonToggleGroup,
+    MatButtonToggle,
   ],
   templateUrl: './post.m.html',
   styleUrl: './post.m.scss'
@@ -62,12 +65,15 @@ export class PostM implements OnInit, OnDestroy {
   currentUId!: number;
 
   posts: Array<Post> = [];
+  trendingPosts: Array<Post> = [];
 
   createdPost!: PostRequest;
   comment!: CommentRequest;
   OldPost!: Post;
 
   postLike!: Like;
+
+  filterAuthorName = "";
 
   dataSubscriber$ = new Subscription();
 
@@ -90,6 +96,7 @@ export class PostM implements OnInit, OnDestroy {
 
   initialize(): void {
     this.loadPosts("");
+    this.loadTrendingPosts();
     this.currentUId = Number(this.authorizationManagerService.getUid());
   }
 
@@ -128,6 +135,64 @@ export class PostM implements OnInit, OnDestroy {
         }
       })
     )
+  }
+
+  loadTrendingPosts(): void {
+    this.dataSubscriber$.add(
+      this.dataService.getData<Post>(ApiEndpoints.paths.trending).subscribe({
+        next: (response: Array<Post>) => {
+          this.trendingPosts = response;
+        },
+        error: (error) => {
+          console.error("Error fetching trending posts:", error);
+        }
+      })
+    )
+  }
+
+  highLightTrendingPost(postId: number): boolean {
+    return  this.trendingPosts.some(post => post.id === postId);
+  }
+
+  filterPostsByAuthor(authorName: string): void {
+    this.loadPosts(authorName);
+  }
+
+  filterMostLikedPosts(): void {
+    this.posts.sort((a, b) => b.likes.length - a.likes.length);
+  }
+
+  filterMostRecentPosts(): void {
+    this.posts.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+  }
+
+  filterMostLikedAndRecent(): void {
+    this.posts.sort((a, b) => {
+
+      const likeDiff = b.likes.length - a.likes.length;
+      if (likeDiff !== 0) return likeDiff;
+
+      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+    });
+  }
+
+  onFilterChange(filter: string): void {
+    switch (filter) {
+      case "recent":
+        this.filterMostRecentPosts();
+        break;
+      case "liked":
+        this.filterMostLikedPosts();
+        break;
+      case "likedAndRecent":
+        this.filterMostLikedAndRecent();
+        break;
+    }
+  }
+
+  clearFilter(): void {
+    this.filterAuthorName = "";
+    this.loadPosts("");
   }
 
   calculateTimeDuration(creationTime: string): string {

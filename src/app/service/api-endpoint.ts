@@ -16,9 +16,11 @@ const baseUrl = 'https://localhost:5050';
 export const ApiEndpoints = {
   baseUrl,
   paths: {
-    login: `${baseUrl}/api/Auth/login`,
+    login: `${baseUrl}/api/Auth/Login`,
 
     post: `${baseUrl}/api/Posts`,
+
+    trending: `${baseUrl}/api/Posts/Trending`,
 
     comment: `${baseUrl}/api/Comments`,
 
