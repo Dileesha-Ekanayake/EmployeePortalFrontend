@@ -19,5 +19,7 @@ export const ApiEndpoints = {
     login: `${baseUrl}/api/Auth/login`,
 
     post: `${baseUrl}/api/Posts`,
+
+    comment: `${baseUrl}/api/Comments`
   }
 } as const;

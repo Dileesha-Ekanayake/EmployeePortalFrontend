@@ -21,6 +21,7 @@ import {MatDivider} from '@angular/material/divider';
 import {AvNotificationService} from '@avoraui/av-notifications';
 import {PostRequest} from '../../../entity/PostRequest';
 import {AuthorizationManagerService} from '../../../auth/authorization-manager.service';
+import {CommentRequest} from '../../../entity/CommentRequest';
 
 @Component({
   selector: 'app-portal',
@@ -58,6 +59,7 @@ export class PostM implements OnInit, OnDestroy {
   posts: Array<Post> = [];
 
   createdPost!: PostRequest;
+  comment!: CommentRequest;
   OldPost!: Post;
 
   dataSubscriber$ = new Subscription();
@@ -150,19 +152,45 @@ export class PostM implements OnInit, OnDestroy {
           this.notificationService.showSuccess("Successfully created post.", {
             theme: "light"
           })
-         this.resetAndReloadForm();
+         this.resetAndReloadPostForm();
         },
         error: (error) => {
           this.notificationService.showFailure("Failed to create post.", {
             theme: "light"
           })
-          console.error("Error creating post:", error);
+          console.error("Error creating post:", error.message);
         }
       })
     )
   }
 
-  resetAndReloadForm(): void {
+  addComment(postId: number): void {
+    const {content} = this.commentForm.getRawValue();
+
+    this.comment = new CommentRequest();
+    this.comment.content = content;
+    this.comment.postId = postId;
+    this.comment.userId = Number(this.authorizationManagerService.getUid());
+
+    this.dataSubscriber$.add(
+      this.dataService.save<CommentRequest>(ApiEndpoints.paths.comment, this.comment).subscribe({
+        next: (response) => {
+          this.notificationService.showSuccess("Successfully added comment.", {
+            theme: "light"
+          })
+          this.loadPosts("");
+          this.commentForm.reset();
+        },
+        error: (error) => {
+          this.notificationService.showFailure("Failed to add comment : " + error.message, {
+            theme: "light"
+          })
+        }
+      })
+    )
+  }
+
+  resetAndReloadPostForm(): void {
     this.postForm.reset();
     this.loadPosts("");
     this.collapsePanel();

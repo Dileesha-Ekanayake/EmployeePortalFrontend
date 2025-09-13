@@ -143,6 +143,7 @@
                   </mat-form-field>
                   <button mat-icon-button color="primary"
                           [disabled]="!commentForm.valid"
+                          (click)="addComment(post.id)"
                   >
                     <mat-icon matIconSuffix>send</mat-icon>
                   </button>
