@@ -17,6 +17,13 @@ export class DataService {
   constructor(private http: HttpClient) {
   }
 
+  /**
+   * Fetches data from the specified endpoint and returns an observable of an array of type T.
+   *
+   * @param {string} endpoint The base URL or API endpoint for the request.
+   * @param {string | number} [query] Optional parameter that can be a query string, path parameter, or query parameter.
+   * @return {Observable<Array<T>>} An Observable emitting an array of data of type T.
+   */
   getData<T>(endpoint: string, query?: string | number): Observable<Array<T>> {
 
     let url = endpoint;
@@ -42,21 +49,13 @@ export class DataService {
     );
   }
 
-  getDataObject<T>(endpoint: string, query?: string | number): Observable<T> {
-    const url = query ? `${endpoint}/${query}` : endpoint;
-
-    return this.http.get<T>(url).pipe(
-      map(response => {
-        if (!response) throw new Error('No data returned from server');
-        return response;
-      }),
-      catchError((error) => {
-        console.error(`Error fetching data from ${url}`, error);
-        return of(null as any);
-      })
-    );
-  }
-
+  /**
+   * Sends data to the specified endpoint using an HTTP POST request.
+   *
+   * @param {string} endpoint - The URL to which the data will be sent.
+   * @param {T | T[]} data - The data to be sent, which can be a single object or an array of objects.
+   * @return {Observable<string>} An observable that emits a success message or an error string in case of failure.
+   */
   save<T>(endpoint: string, data: T | T[]): Observable<string> {
     return this.http.post<string>(endpoint, data).pipe(
       catchError((error) => {
@@ -66,6 +65,13 @@ export class DataService {
     );
   }
 
+  /**
+   * Updates data at the specified endpoint with the provided data.
+   *
+   * @param {string} endpoint The API endpoint where the data will be updated.
+   * @param {T} data The data to be updated at the specified endpoint.
+   * @return {Observable<string>} An observable that emits a string indicating the success or failure of the update operation.
+   */
   update<T>(endpoint: string, data: T): Observable<string> {
     return this.http.put<string>(endpoint, data).pipe(
       catchError((error) => {
@@ -75,6 +81,13 @@ export class DataService {
     );
   }
 
+  /**
+   * Deletes a resource at the specified endpoint with the provided identifier.
+   *
+   * @param {string} endpoint - The API endpoint to make the delete request.
+   * @param {number|string} value - The identifier of the resource to delete.
+   * @return {Observable<string>} An observable that emits the result of the delete operation or an error message.
+   */
   delete(endpoint: string, value: number | string): Observable<string> {
     return this.http.delete<string>(`${endpoint}/${value}`).pipe(
       catchError((error) => {
