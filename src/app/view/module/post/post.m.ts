@@ -18,6 +18,9 @@ import {ApiEndpoints} from '../../../service/api-endpoint';
 import {Post} from '../../../entity/Post';
 import {DatePipe} from '@angular/common';
 import {MatDivider} from '@angular/material/divider';
+import {AvNotificationService} from '@avoraui/av-notifications';
+import {PostRequest} from '../../../entity/PostRequest';
+import {AuthorizationManagerService} from '../../../auth/authorization-manager.service';
 
 @Component({
   selector: 'app-portal',
@@ -54,11 +57,16 @@ export class PostM implements OnInit, OnDestroy {
 
   posts: Array<Post> = [];
 
+  createdPost!: PostRequest;
+  OldPost!: Post;
+
   dataSubscriber$ = new Subscription();
 
   constructor(
     private formBuilder: FormBuilder,
     private dataService: DataService,
+    private notificationService: AvNotificationService,
+    private authorizationManagerService: AuthorizationManagerService,
   ) {
 
     this.postForm = this.formBuilder.group({
@@ -78,6 +86,15 @@ export class PostM implements OnInit, OnDestroy {
 
   initialize(): void {
     this.loadPosts("");
+  }
+
+  expandPanel(event: boolean) {
+    this.isExpanded = event;
+  }
+
+  collapsePanel() {
+    this.isExpanded = false;
+    this.postForm.reset();
   }
 
   loadPosts(authorName: string): void {
@@ -107,6 +124,9 @@ export class PostM implements OnInit, OnDestroy {
     const hours = Math.floor(diffMs / (1000 * 60 * 60));
     const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
 
+    if (minutes < 1) {
+      return "Just now";
+    }
     if (minutes < 60) {
       return `${minutes} min ago`;
     } else if (hours < 24) {
@@ -116,14 +136,36 @@ export class PostM implements OnInit, OnDestroy {
     }
   }
 
+  createNewPost(): void {
+    const {title, content} = this.postForm.getRawValue();
 
-  expandPanel(event: boolean) {
-    this.isExpanded = event;
+    this.createdPost = new PostRequest();
+    this.createdPost.title = title;
+    this.createdPost.content = content;
+    this.createdPost.authorId = Number(this.authorizationManagerService.getUid());
+
+    this.dataSubscriber$.add(
+      this.dataService.save<PostRequest>(ApiEndpoints.paths.post, this.createdPost).subscribe({
+        next: (response) => {
+          this.notificationService.showSuccess("Successfully created post.", {
+            theme: "light"
+          })
+         this.resetAndReloadForm();
+        },
+        error: (error) => {
+          this.notificationService.showFailure("Failed to create post.", {
+            theme: "light"
+          })
+          console.error("Error creating post:", error);
+        }
+      })
+    )
   }
 
-  collapsePanel() {
-    this.isExpanded = false;
+  resetAndReloadForm(): void {
     this.postForm.reset();
+    this.loadPosts("");
+    this.collapsePanel();
   }
 
   ngOnDestroy(): void {

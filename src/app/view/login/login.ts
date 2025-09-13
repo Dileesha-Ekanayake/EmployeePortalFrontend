@@ -72,11 +72,9 @@ export class Login implements OnInit, OnDestroy {
       this.authenticateService.authenticate(username, password).subscribe({
         next: (response: any) => {
           let token = response.body?.token; // read token from JSON body
-          console.log(token);
           if (token) {
-            localStorage.setItem('authToken', token);
-            this.authorizationManagerService.setLoggedUserDetails();
-            this.router.navigateByUrl("Main/portal");
+            this.authorizationManagerService.setAuthDetails(token);
+            this.router.navigateByUrl("Main/Post");
           }
         },
         error: (error) => {

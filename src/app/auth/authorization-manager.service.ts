@@ -31,7 +31,17 @@ export class AuthorizationManagerService {
     return localStorage.getItem("userRole") || '';
   }
 
-  setLoggedUserDetails() : void {
+  setUid(value: string): void {
+    //@ts-ignore
+    localStorage.setItem("uid", value);
+  }
+
+  getUid(): string {
+    return localStorage.getItem("uid") || '';
+  }
+
+  setAuthDetails(token: any) : void {
+    localStorage.setItem('authToken', token);
     const authHeader = this.getToken();
     if (authHeader) {
 
@@ -42,10 +52,11 @@ export class AuthorizationManagerService {
           console.log("Decoded Token:", decodedToken);
 
           // Extract name and role from claim URIs
+          const userId = decodedToken["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"];
           const name = decodedToken["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"];
           const role = decodedToken["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
 
-          console.log("Name:", name, "Role:", role);
+          this.setUid(userId);
           this.setUsername(name);
           this.setUserRole(role);
 
@@ -73,8 +84,14 @@ export class AuthorizationManagerService {
     return localStorage.getItem('authToken');
   }
 
+  clearAuthToken(): void {
+    // @ts-ignore
+    localStorage.removeItem('authToken');
+  }
+
   logout(): void {
     this.clearUserDetails();
+    this.clearAuthToken();
     this.router.navigateByUrl("login");
   }
 

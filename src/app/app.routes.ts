@@ -3,7 +3,7 @@ import {Login} from './view/login/login';
 import {Mainwindow} from './view/mainwindow/mainwindow';
 
 export const routes: Routes = [
-  {path: "login", component: Mainwindow},
+  {path: "login", component: Login},
   {path: "", redirectTo: 'login', pathMatch: 'full'},
   {
     path: "Main",
@@ -14,7 +14,7 @@ export const routes: Routes = [
         loadComponent: () => import('./view/dashboard/dashboard').then(c => c.Dashboard),
       },
       {
-        path: "PostM",
+        path: "Post",
         loadComponent: () => import('./view/module/post/post.m').then(c => c.PostM),
       },
       {

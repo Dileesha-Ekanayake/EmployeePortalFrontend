@@ -24,7 +24,7 @@
               <form [formGroup]="postForm">
                 <div class="post-title">
                   <mat-form-field appearance="outline">
-                    <mat-label>PostM Title...</mat-label>
+                    <mat-label>Post Title...</mat-label>
                     <input matInput formControlName="title">
                     @if (postForm.get('title')?.invalid && postForm.get('title')?.touched) {
                       <mat-error>
@@ -35,7 +35,7 @@
                 </div>
                 <div class="post-content">
                   <mat-form-field appearance="outline">
-                    <mat-label>PostM Content...</mat-label>
+                    <mat-label>Post Content...</mat-label>
                     <textarea matInput rows="4" formControlName="content"></textarea>
                     @if (postForm.get('content')?.invalid && postForm.get('content')?.touched) {
                       <mat-error>
@@ -46,7 +46,9 @@
                 </div>
                 <div class="post-button">
                   <button mat-raised-button color="primary" (click)="collapsePanel()">Cancel</button>
-                  <button mat-raised-button color="primary" [disabled]="!postForm.valid">Share Post</button>
+                  <button mat-raised-button color="primary" [disabled]="!postForm.valid"
+                          (click)="createNewPost()">Share Post
+                  </button>
                 </div>
               </form>
             </div>
@@ -67,7 +69,7 @@
                   <mat-icon>person</mat-icon>
                 </div>
                 <div class="user-post-details">
-                  <span class="user-name">{{ post.authorName }}</span>
+                  <span class="user-name">{{ post.author.userName }}</span>
                   <span class="user-role-time">{{ post.authorRole }}
                     <mat-icon>query_builder</mat-icon>
                     {{ calculateTimeDuration(post.createdAt) }}</span>

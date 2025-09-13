@@ -1,4 +1,5 @@
 import {Comment} from './Comment';
+import {User} from './User';
 
 export class Post {
 
@@ -6,7 +7,7 @@ export class Post {
   public title!: string;
   public content!: string;
   public createdAt!: string;
-  public authorName!: string;
+  public author!: User;
   public authorRole!: string;
   public likeCount!: number;
   public dislikeCount!: number;
