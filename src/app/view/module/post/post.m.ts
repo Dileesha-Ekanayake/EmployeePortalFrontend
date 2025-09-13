@@ -293,7 +293,7 @@ export class PostM implements OnInit, OnDestroy {
     )
   }
 
-  checkUserStatus(postId: number, likes: Array<Like>, isLike: boolean): boolean {
+  checkUserLikOrDislikeStatus(postId: number, likes: Array<Like>, isLike: boolean): boolean {
     return likes.some(like =>
       like.postId === postId &&
       like.userId === this.currentUId &&
