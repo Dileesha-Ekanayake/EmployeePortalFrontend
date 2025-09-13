@@ -9,7 +9,7 @@
         </mat-form-field>
 
         <div class="filter-buttons-container">
-          <mat-button-toggle-group name="fontStyle" (change)="onFilterChange($event.value)">
+          <mat-button-toggle-group name="fontStyle" [(value)]="selectedToggleFilter" (change)="onFilterChange($event.value)">
             <mat-button-toggle value="recent">Most Recent</mat-button-toggle>
             <mat-button-toggle value="liked">Most Liked</mat-button-toggle>
             <mat-button-toggle value="likedAndRecent">Most Liked & Recent</mat-button-toggle>

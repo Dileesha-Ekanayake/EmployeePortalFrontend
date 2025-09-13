@@ -74,6 +74,7 @@ export class PostM implements OnInit, OnDestroy {
   postLike!: Like;
 
   filterAuthorName = "";
+  selectedToggleFilter: string | null = null;
 
   dataSubscriber$ = new Subscription();
 
@@ -266,12 +267,14 @@ export class PostM implements OnInit, OnDestroy {
   }
 
   /**
-   * Resets the applied filter by clearing the author's name filter
-   * and reloads the posts without any filter criteria.
+   * Clears the current filter settings by resetting filter-related fields.
+   * Resets the selected toggle filter to null, clears the filter author name,
+   * and reloads posts with no filter applied.
    *
-   * @return {void} Does not return a value.
+   * @return {void} No value is returned.
    */
   clearFilter(): void {
+    this.selectedToggleFilter = null;
     this.filterAuthorName = "";
     this.loadPosts("");
   }
