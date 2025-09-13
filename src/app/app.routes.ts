@@ -3,7 +3,7 @@ import {Login} from './view/login/login';
 import {Mainwindow} from './view/mainwindow/mainwindow';
 
 export const routes: Routes = [
-  {path: "login", component: Mainwindow},
+  {path: "login", component: Login},
   {path: "", redirectTo: 'login', pathMatch: 'full'},
   {
     path: "Main",
@@ -11,7 +11,7 @@ export const routes: Routes = [
     children: [
       {
         path: "portal",
-        loadComponent: () => import('./view/module/portal/portal').then(c => c.Portal)
+        loadComponent: () => import('./view/module/post/post').then(c => c.Post)
       }
     ]
   }

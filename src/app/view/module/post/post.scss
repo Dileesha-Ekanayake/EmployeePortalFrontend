@@ -1,0 +1,119 @@
+mat-grid-list {
+  background: #fafafa;
+  margin: 2rem 4rem 2rem 4rem;
+}
+
+mat-grid-tile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+mat-card {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background: white;
+  border: 1px solid #e5e7eb;
+  box-shadow: unset;
+  margin: 0.2rem;
+}
+
+mat-expansion-panel {
+  background: white;
+  box-shadow: unset !important;
+  border-radius: 8px;
+
+  .mat-expansion-panel-content {
+    padding: 0 !important;
+  }
+
+  .panel-header {
+
+    cursor: pointer;
+    padding: 16px;
+    height: auto !important;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: white !important;
+    }
+
+    .title-icon {
+      font-size: 24px;
+      margin-right: 10px;
+      background-color: #f3f4f6;
+      padding: 10px;
+      color: #9d9d9d;
+      border-radius: 50%;
+    }
+
+    p {
+      background-color: #f3f4f6;
+      width: 130%;
+      margin-left: -45%;
+      padding: 10px;
+      border-radius: 50px;
+      color: #9d9d9d;
+    }
+
+    .mat-expansion-panel-header-description {
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    button {
+      background-color: #3b82f6 !important;
+      color: white !important;
+      border: unset;
+      border-radius: 12px;
+    }
+  }
+}
+
+::ng-deep mat-expansion-panel:hover {
+  background: unset !important;
+}
+
+.post-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-top: 20px;
+  border-radius: 8px;
+  margin: 16px;
+
+  mat-form-field {
+    width: 100%;
+    --mat-form-field-container-height: 40px;
+    --mat-form-field-container-vertical-padding: 8px;
+    padding-bottom: 10px;
+  }
+
+  .post-button {
+    display: flex;
+    justify-content: flex-end;
+    gap: 16px;
+
+    button:first-child {
+      background-color: unset !important;
+      box-shadow: unset !important;
+      color: #6b7280 !important;
+      border: unset;
+    }
+
+    button:last-child {
+      background-color: #3b82f6 !important;
+      color: white !important;
+      border-radius: 12px;
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    }
+  }
+}
+
+

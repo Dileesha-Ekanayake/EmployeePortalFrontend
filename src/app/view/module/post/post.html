@@ -1,0 +1,58 @@
+<mat-grid-list [cols]="12" rowHeight="4rem">
+  <mat-grid-tile [colspan]="12" [rowspan]="isExpanded ? 5 : 2">
+    <mat-card>
+      <mat-card-content>
+        <mat-expansion-panel hideToggle [(expanded)]="isExpanded">
+
+          @if (!isExpanded) {
+            <mat-expansion-panel-header class="panel-header">
+              <mat-panel-title>
+                <mat-icon class="title-icon">person</mat-icon>
+              </mat-panel-title>
+
+              <mat-panel-description>
+                <p>Share something with your team...</p>
+                <button mat-raised-button color="primary"
+                        (click)="expandPanel(true)">+ Post
+                </button>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+          }
+
+          @if (isExpanded) {
+            <div class="post-form">
+              <form [formGroup]="postForm">
+                <div class="post-title">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Post Title...</mat-label>
+                    <input matInput formControlName="Title">
+                    @if (postForm.get('Title')?.invalid && postForm.get('Title')?.touched) {
+                      <mat-error>
+                        <span>Title is required</span>
+                      </mat-error>
+                    }
+                  </mat-form-field>
+                </div>
+                <div class="post-content">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Post Content...</mat-label>
+                    <textarea matInput rows="4" formControlName="Content"></textarea>
+                    @if (postForm.get('Content')?.invalid && postForm.get('Content')?.touched) {
+                      <mat-error>
+                        <span>Content is required</span>
+                      </mat-error>
+                    }
+                  </mat-form-field>
+                </div>
+                <div class="post-button">
+                  <button mat-raised-button color="primary" (click)="collapsePanel()">Cancel</button>
+                  <button mat-raised-button color="primary" [disabled]="!postForm.valid">Share Post</button>
+                </div>
+              </form>
+            </div>
+          }
+        </mat-expansion-panel>
+      </mat-card-content>
+    </mat-card>
+  </mat-grid-tile>
+</mat-grid-list>
