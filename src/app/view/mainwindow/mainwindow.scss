@@ -94,8 +94,8 @@ mat-toolbar-row {
   .nav-list {
     display: flex;
     flex-direction: row;
-    width: 30%;
     height: 100%;
+    gap: 20px;
     list-style: none;
     padding: 0;
     margin: 0;
@@ -104,13 +104,12 @@ mat-toolbar-row {
     .list-item {
       display: flex;
       align-items: center;
+      align-content: center;
       justify-content: center;
-      width: 100%;
+      width: fit-content;
       height: 100%;
-    }
-
-    .list-item:hover {
-      border-bottom: 2px solid #3b82f6;
+      background: unset;
+      cursor: pointer;
     }
 
     .list-item span[matLine] {
@@ -119,8 +118,20 @@ mat-toolbar-row {
     }
 
     .list-item:hover span[matLine] {
-      color: #3b82f6;
+      border-bottom: 2px solid #9d9d9d;
+      color: #1f2937;
       font-weight: 500;
+    }
+
+    .active {
+
+      color: #3b82f6;
+
+      span[matLine] {
+        border-bottom: 2px solid #3b82f6;
+        color: #3b82f6;
+        font-weight: 500;
+      }
     }
   }
 }

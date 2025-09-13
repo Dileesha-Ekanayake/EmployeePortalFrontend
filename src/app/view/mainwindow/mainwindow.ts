@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {MatToolbar, MatToolbarRow} from '@angular/material/toolbar';
 import {MatIcon} from "@angular/material/icon";
 import {AuthorizationManagerService} from '../../auth/authorization-manager.service';
-import {Router, RouterLink, RouterOutlet} from '@angular/router';
+import {Router, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 import {MatList, MatListItem} from '@angular/material/list';
 import {MatLine} from '@angular/material/core';
 
@@ -16,7 +16,8 @@ import {MatLine} from '@angular/material/core';
     MatListItem,
     RouterLink,
     MatList,
-    MatLine
+    MatLine,
+    RouterLinkActive
   ],
   templateUrl: './mainwindow.html',
   styleUrl: './mainwindow.scss'
