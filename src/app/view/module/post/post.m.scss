@@ -205,15 +205,33 @@ mat-expansion-panel {
       align-items: center;
       margin-left: auto;
 
-      .edit-post mat-icon {
-        font-size: 20px;
-        color: #3b82f6;
+      .edit-post {
+        display: flex;
+        align-items: center;
+        justify-content: center;
         cursor: pointer;
+        transition: background-color 0.2s ease;
+        background-color: rgba(59, 130, 246, 0.21);
+
+        mat-icon {
+          font-size: 20px;
+          color: #3b82f6;
+          cursor: pointer;
+        }
       }
 
-      .delete-post mat-icon {
-        font-size: 20px;
-        color: #dc2626;
+      .delete-post {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        background-color: rgba(253, 59, 60, 0.21);
+
+        mat-icon {
+          font-size: 20px;
+          color: #dc2626;
+
+        }
       }
     }
   }

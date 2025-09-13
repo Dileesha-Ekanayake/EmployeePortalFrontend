@@ -150,19 +150,19 @@
               <mat-divider></mat-divider>
 
               <div class="comment-form-container">
-                <form [formGroup]="commentForm" class="comment-form">
+                <form [formGroup]="getCommentForm(post.id)" class="comment-form">
                   <mat-icon>person</mat-icon>
                   <mat-form-field appearance="outline">
                     <mat-label>Comment...</mat-label>
                     <input matInput formControlName="content">
-                    @if (commentForm.get('content')?.invalid && commentForm.get('content')?.touched) {
+                    @if (getCommentForm(post.id).get('content')?.invalid && getCommentForm(post.id).get('content')?.touched) {
                       <mat-error>
                         <span>Comment is required</span>
                       </mat-error>
                     }
                   </mat-form-field>
                   <button mat-icon-button color="primary"
-                          [disabled]="!commentForm.valid"
+                          [disabled]="!getCommentForm(post.id).valid"
                           (click)="addComment(post.id)"
                   >
                     <mat-icon matIconSuffix>send</mat-icon>

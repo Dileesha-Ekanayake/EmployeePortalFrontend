@@ -55,7 +55,7 @@ export class PostM implements OnInit, OnDestroy {
 
   isExpanded = false;
   postForm!: FormGroup;
-  commentForm!: FormGroup;
+  commentForms: { [postId: number]: FormGroup } = {};
 
   isEnableEditPost = false;
 
@@ -82,11 +82,6 @@ export class PostM implements OnInit, OnDestroy {
       title: new FormControl('', [Validators.required]),
       content: new FormControl('', [Validators.required]),
     });
-
-    this.commentForm = this.formBuilder.group({
-      content: new FormControl('', [Validators.required]),
-    });
-
   }
 
   ngOnInit(): void {
@@ -107,6 +102,16 @@ export class PostM implements OnInit, OnDestroy {
     this.postForm.reset();
   }
 
+  initializeCommentFormPerPost(postId: number) {
+    this.commentForms[postId] = this.formBuilder.group({
+      content: ['', Validators.required]
+    });
+  }
+
+  getCommentForm(postId: number): FormGroup {
+    return this.commentForms[postId];
+  }
+
   loadPosts(authorName: string): void {
 
     const queryParam = new URLSearchParams();
@@ -116,6 +121,7 @@ export class PostM implements OnInit, OnDestroy {
       this.dataService.getData<Post>(ApiEndpoints.paths.post, queryParam.toString()).subscribe({
         next: (response: Array<Post>) => {
           this.posts = response;
+          this.posts.forEach(post => {this.initializeCommentFormPerPost(post.id)})
         },
         error: (error) => {
           console.error("Error fetching posts:", error);
@@ -162,7 +168,7 @@ export class PostM implements OnInit, OnDestroy {
     this.dataSubscriber$.add(
       this.dataService.save<PostRequest>(ApiEndpoints.paths.post, postToSave).subscribe({
         next: (response) => {
-          this.notificationService.showSuccess("Successfully created post. : " + JSON.parse(response).title, {
+          this.notificationService.showSuccess("Successfully created post.", {
             theme: "light"
           })
          this.resetAndReloadPostForm();
@@ -178,7 +184,7 @@ export class PostM implements OnInit, OnDestroy {
   }
 
   addComment(postId: number): void {
-    const {content} = this.commentForm.getRawValue();
+    const {content} = this.commentForms[postId].getRawValue();
 
     this.comment = new CommentRequest();
     this.comment.content = content;
@@ -192,7 +198,7 @@ export class PostM implements OnInit, OnDestroy {
             theme: "light"
           })
           this.loadPosts("");
-          this.commentForm.reset();
+          this.commentForms[postId].reset();
         },
         error: (error) => {
           this.notificationService.showFailure("Failed to add comment : " + error.message, {
@@ -229,7 +235,7 @@ export class PostM implements OnInit, OnDestroy {
     this.dataSubscriber$.add(
       this.dataService.update<PostRequest>(ApiEndpoints.paths.post, postToUpdate).subscribe({
         next: (response) => {
-          this.notificationService.showSuccess("Successfully updated post. : " + JSON.parse(response).title, {
+          this.notificationService.showSuccess("Successfully updated post.", {
             theme: "light"
           })
           this.resetAndReloadPostForm();
