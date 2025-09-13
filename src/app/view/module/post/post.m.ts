@@ -21,6 +21,8 @@ import {AvNotificationService} from '@avoraui/av-notifications';
 import {PostRequest} from '../../../entity/PostRequest';
 import {AuthorizationManagerService} from '../../../auth/authorization-manager.service';
 import {CommentRequest} from '../../../entity/CommentRequest';
+import {Like} from '../../../entity/Like';
+import {NgClass} from '@angular/common';
 
 @Component({
   selector: 'app-portal',
@@ -44,6 +46,7 @@ import {CommentRequest} from '../../../entity/CommentRequest';
     MatDivider,
     MatIconButton,
     MatSuffix,
+    NgClass,
   ],
   templateUrl: './post.m.html',
   styleUrl: './post.m.scss'
@@ -63,6 +66,8 @@ export class PostM implements OnInit, OnDestroy {
   createdPost!: PostRequest;
   comment!: CommentRequest;
   OldPost!: Post;
+
+  postLike!: Like;
 
   dataSubscriber$ = new Subscription();
 
@@ -261,6 +266,33 @@ export class PostM implements OnInit, OnDestroy {
       })
     )
 
+  }
+
+  likePost(action: "like" | "dislike" , postId: number) {
+
+    this.postLike = new Like();
+    this.postLike.postId = postId;
+    this.postLike.isLike = action === "like";
+    this.postLike.userId = this.currentUId;
+
+    this.dataSubscriber$.add(
+      this.dataService.save<Like>(ApiEndpoints.paths.like, this.postLike).subscribe({
+        next: () => {
+          this.loadPosts("");
+        },
+        error: (error) => {
+          console.error("Failed to like post. : " + error.message, {})
+        }
+      })
+    )
+  }
+
+  checkUserStatus(postId: number, likes: Array<Like>, isLike: boolean): boolean {
+    return likes.some(like =>
+      like.postId === postId &&
+      like.userId === this.currentUId &&
+      like.isLike === isLike
+    );
   }
 
   fillForm(id: number) {

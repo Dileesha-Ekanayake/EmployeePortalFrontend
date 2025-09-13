@@ -48,7 +48,7 @@
                   <button mat-raised-button color="primary" (click)="collapsePanel()">Cancel</button>
                   <button mat-raised-button color="primary" [disabled]="!postForm.valid"
                           (click)="!isEnableEditPost ? savePost() : updatePost()">
-                    {{ isEnableEditPost? 'Edit Post' : 'Share Post' }}
+                    {{ isEnableEditPost ? 'Edit Post' : 'Share Post' }}
                   </button>
                 </div>
               </form>
@@ -96,12 +96,21 @@
 
               <div class="post-actions">
                 <div class="action-button-container">
-                  <button class="like-button">
-                    <mat-icon matIconSuffix>thumb_up</mat-icon>
+                  <button class="like-button"
+                          (click)="likePost('like', post.id)"
+                  >
+                    <mat-icon matIconSuffix
+                              [ngClass]="{ 'liked': checkUserStatus(post.id, post.likes, true) }">thumb_up
+                    </mat-icon>
                     {{ post.likeCount }}
                   </button>
-                  <button class="like-button">
-                    <mat-icon matIconSuffix>thumb_down</mat-icon>
+                  <button class="like-button"
+                          (click)="likePost('dislike', post.id)"
+                  >
+                    <mat-icon matIconSuffix
+                              [ngClass]="{ 'disliked': checkUserStatus(post.id, post.likes, false) }">
+                      thumb_down
+                    </mat-icon>
                     {{ post.dislikeCount }}
                   </button>
                 </div>

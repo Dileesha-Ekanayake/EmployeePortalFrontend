@@ -20,6 +20,8 @@ export const ApiEndpoints = {
 
     post: `${baseUrl}/api/Posts`,
 
-    comment: `${baseUrl}/api/Comments`
+    comment: `${baseUrl}/api/Comments`,
+
+    like: `${baseUrl}/api/Posts/Likes`,
   }
 } as const;
