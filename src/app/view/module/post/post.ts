@@ -46,8 +46,8 @@ export class Post implements OnInit, OnDestroy {
   ) {
 
     this.postForm = this.formBuilder.group({
-      Title: new FormControl('', [Validators.required]),
-      Content: new FormControl('', [Validators.required]),
+      title: new FormControl('', [Validators.required]),
+      content: new FormControl('', [Validators.required]),
     });
 
   }

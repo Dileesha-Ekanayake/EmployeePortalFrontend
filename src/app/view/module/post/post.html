@@ -25,8 +25,8 @@
                 <div class="post-title">
                   <mat-form-field appearance="outline">
                     <mat-label>Post Title...</mat-label>
-                    <input matInput formControlName="Title">
-                    @if (postForm.get('Title')?.invalid && postForm.get('Title')?.touched) {
+                    <input matInput formControlName="title">
+                    @if (postForm.get('title')?.invalid && postForm.get('title')?.touched) {
                       <mat-error>
                         <span>Title is required</span>
                       </mat-error>
@@ -36,8 +36,8 @@
                 <div class="post-content">
                   <mat-form-field appearance="outline">
                     <mat-label>Post Content...</mat-label>
-                    <textarea matInput rows="4" formControlName="Content"></textarea>
-                    @if (postForm.get('Content')?.invalid && postForm.get('Content')?.touched) {
+                    <textarea matInput rows="4" formControlName="content"></textarea>
+                    @if (postForm.get('content')?.invalid && postForm.get('content')?.touched) {
                       <mat-error>
                         <span>Content is required</span>
                       </mat-error>
