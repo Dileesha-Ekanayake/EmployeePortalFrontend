@@ -16,7 +16,6 @@ import {Subscription} from 'rxjs';
 import {DataService} from '../../../service/data.service';
 import {ApiEndpoints} from '../../../service/api-endpoint';
 import {Post} from '../../../entity/Post';
-import {DatePipe} from '@angular/common';
 import {MatDivider} from '@angular/material/divider';
 import {AvNotificationService} from '@avoraui/av-notifications';
 import {PostRequest} from '../../../entity/PostRequest';
@@ -42,7 +41,6 @@ import {CommentRequest} from '../../../entity/CommentRequest';
     MatButton,
     ReactiveFormsModule,
     MatError,
-    DatePipe,
     MatDivider,
     MatIconButton,
     MatSuffix,
@@ -56,6 +54,10 @@ export class PostM implements OnInit, OnDestroy {
   postForm!: FormGroup;
   commentForm!: FormGroup;
 
+  isEnableEditPost = false;
+
+  currentUId!: number;
+
   posts: Array<Post> = [];
 
   createdPost!: PostRequest;
@@ -68,7 +70,7 @@ export class PostM implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private dataService: DataService,
     private notificationService: AvNotificationService,
-    private authorizationManagerService: AuthorizationManagerService,
+    protected authorizationManagerService: AuthorizationManagerService,
   ) {
 
     this.postForm = this.formBuilder.group({
@@ -88,6 +90,7 @@ export class PostM implements OnInit, OnDestroy {
 
   initialize(): void {
     this.loadPosts("");
+    this.currentUId = Number(this.authorizationManagerService.getUid());
   }
 
   expandPanel(event: boolean) {
@@ -138,16 +141,22 @@ export class PostM implements OnInit, OnDestroy {
     }
   }
 
-  createNewPost(): void {
+  createNewPost(): PostRequest {
     const {title, content} = this.postForm.getRawValue();
-
     this.createdPost = new PostRequest();
     this.createdPost.title = title;
     this.createdPost.content = content;
-    this.createdPost.authorId = Number(this.authorizationManagerService.getUid());
+    this.createdPost.authorId = this.currentUId;
+
+    return this.createdPost;
+  }
+
+  savePost(): void {
+
+    const postToSave = this.createNewPost();
 
     this.dataSubscriber$.add(
-      this.dataService.save<PostRequest>(ApiEndpoints.paths.post, this.createdPost).subscribe({
+      this.dataService.save<PostRequest>(ApiEndpoints.paths.post, postToSave).subscribe({
         next: (response) => {
           this.notificationService.showSuccess("Successfully created post.", {
             theme: "light"
@@ -170,7 +179,7 @@ export class PostM implements OnInit, OnDestroy {
     this.comment = new CommentRequest();
     this.comment.content = content;
     this.comment.postId = postId;
-    this.comment.userId = Number(this.authorizationManagerService.getUid());
+    this.comment.userId = this.currentUId;
 
     this.dataSubscriber$.add(
       this.dataService.save<CommentRequest>(ApiEndpoints.paths.comment, this.comment).subscribe({
@@ -200,5 +209,23 @@ export class PostM implements OnInit, OnDestroy {
     this.dataSubscriber$.unsubscribe();
   }
 
+  deletePost(postId: number) {
+
+  }
+
+  editPost(id: number) {
+    const postToEdit = this.posts.find(post => post.id === id);
+    if (postToEdit) {
+      this.isEnableEditPost = true;
+      this.OldPost = postToEdit;
+      this.postForm.setValue({
+        title: this.OldPost.title,
+        content: this.OldPost.content
+      });
+      this.isExpanded = true;
+    }
+  }
+
+  protected readonly Number = Number;
 }
 

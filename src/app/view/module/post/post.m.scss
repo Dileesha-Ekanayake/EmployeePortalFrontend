@@ -195,6 +195,26 @@ mat-expansion-panel {
         }
       }
     }
+
+    .post-action-button-container {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+      gap: 8px;
+      align-items: center;
+      margin-left: auto;
+
+      .edit-post mat-icon {
+        font-size: 20px;
+        color: #3b82f6;
+        cursor: pointer;
+      }
+
+      .delete-post mat-icon {
+        font-size: 20px;
+        color: #dc2626;
+      }
+    }
   }
 
   .post-body {

@@ -47,7 +47,8 @@
                 <div class="post-button">
                   <button mat-raised-button color="primary" (click)="collapsePanel()">Cancel</button>
                   <button mat-raised-button color="primary" [disabled]="!postForm.valid"
-                          (click)="createNewPost()">Share Post
+                          (click)="savePost()">
+                    {{ isEnableEditPost? 'Edit Post' : 'Share Post' }}
                   </button>
                 </div>
               </form>
@@ -74,6 +75,16 @@
                     <mat-icon>query_builder</mat-icon>
                     {{ calculateTimeDuration(post.createdAt) }}</span>
                 </div>
+                @if (post.author.id === currentUId) {
+                  <div class="post-action-button-container">
+                    <button mat-icon-button color="primary" class="edit-post" (click)="editPost(post.id)">
+                      <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-icon-button color="primary" class="delete-post" (click)="deletePost(post.id)">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </div>
+                }
               </div>
 
               <div class="post-body">
