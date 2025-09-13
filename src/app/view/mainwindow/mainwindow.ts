@@ -2,7 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {MatToolbar, MatToolbarRow} from '@angular/material/toolbar';
 import {MatIcon} from "@angular/material/icon";
 import {AuthorizationManagerService} from '../../auth/authorization-manager.service';
-import {Router, RouterOutlet} from '@angular/router';
+import {Router, RouterLink, RouterOutlet} from '@angular/router';
+import {MatList, MatListItem} from '@angular/material/list';
 
 @Component({
   selector: 'app-mainwindow',
@@ -10,7 +11,10 @@ import {Router, RouterOutlet} from '@angular/router';
     MatToolbar,
     MatToolbarRow,
     MatIcon,
-    RouterOutlet
+    RouterOutlet,
+    MatListItem,
+    RouterLink,
+    MatList
   ],
   templateUrl: './mainwindow.html',
   styleUrl: './mainwindow.scss'

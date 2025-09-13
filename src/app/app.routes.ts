@@ -3,7 +3,7 @@ import {Login} from './view/login/login';
 import {Mainwindow} from './view/mainwindow/mainwindow';
 
 export const routes: Routes = [
-  {path: "login", component: Login},
+  {path: "login", component: Mainwindow},
   {path: "", redirectTo: 'login', pathMatch: 'full'},
   {
     path: "Main",

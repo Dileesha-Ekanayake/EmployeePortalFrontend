@@ -21,6 +21,14 @@
       <mat-icon class="logout-icon" (click)="logout()">logout</mat-icon>
     </span>
   </mat-toolbar-row>
+
+  <mat-toolbar-row class="nav-row">
+    <mat-list class="nav-list">
+      <mat-list-item class="list-item" routerLink="/Main/Dashboard">Dashboard</mat-list-item>
+      <mat-list-item class="list-item" routerLink="/Main/Post">Posts</mat-list-item>
+      <mat-list-item class="list-item" routerLink="/Main/User">Manage Users</mat-list-item>
+    </mat-list>
+  </mat-toolbar-row>
 </mat-toolbar>
 
 <router-outlet/>
