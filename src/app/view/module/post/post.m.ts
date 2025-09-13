@@ -100,25 +100,55 @@ export class PostM implements OnInit, OnDestroy {
     this.currentUId = Number(this.authorizationManagerService.getUid());
   }
 
-  expandPanel(event: boolean) {
+  /**
+   * Expands or collapses the panel based on the provided event.
+   *
+   * @param {boolean} event - A boolean value indicating whether to expand (true) or collapse (false) the panel.
+   * @return {void} Does not return a value.
+   */
+  expandPanel(event: boolean): void {
     this.isExpanded = event;
   }
 
-  collapsePanel() {
+  /**
+   * Collapses the panel by changing its state to collapsed and resetting the associated form.
+   * Sets the `isExpanded` property to false and resets the `postForm` form instance.
+   *
+   * @return {void} Does not return a value.
+   */
+  collapsePanel(): void {
     this.isExpanded = false;
     this.postForm.reset();
   }
 
-  initializeCommentFormPerPost(postId: number) {
+  /**
+   * Initializes a reactive form for a specific post to handle comment submission.
+   *
+   * @param {number} postId - The unique identifier of the post for which the comment form is being initialized.
+   * @return {void} This method does not return a value.
+   */
+  initializeCommentFormPerPost(postId: number): void {
     this.commentForms[postId] = this.formBuilder.group({
       content: ['', Validators.required]
     });
   }
 
+  /**
+   * Retrieves the comment form associated with the given post ID.
+   *
+   * @param {number} postId - The unique identifier of the post for which the comment form is requested.
+   * @return {FormGroup} The form group corresponding to the specified post ID.
+   */
   getCommentForm(postId: number): FormGroup {
     return this.commentForms[postId];
   }
 
+  /**
+   * Loads posts for a specified author and initializes comment forms for each post.
+   *
+   * @param {string} authorName - The name of the author whose posts are to be loaded.
+   * @return {void} This method does not return any value.
+   */
   loadPosts(authorName: string): void {
 
     const queryParam = new URLSearchParams();
@@ -137,6 +167,12 @@ export class PostM implements OnInit, OnDestroy {
     )
   }
 
+  /**
+   * Loads the trending posts from the API and updates the trendingPosts property with the response data.
+   * Handles any errors that occur during the API call by logging to the console.
+   *
+   * @return {void} Does not return a value. Updates the component's trendingPosts property with the fetched data.
+   */
   loadTrendingPosts(): void {
     this.dataSubscriber$.add(
       this.dataService.getData<Post>(ApiEndpoints.paths.trending).subscribe({
@@ -150,22 +186,52 @@ export class PostM implements OnInit, OnDestroy {
     )
   }
 
+  /**
+   * Highlights a trending post by checking if the provided post ID exists in the list of trending posts.
+   *
+   * @param {number} postId - The unique identifier of the post to be checked for trending status.
+   * @return {boolean} Returns true if the post is found in the trending posts list, false otherwise.
+   */
   highLightTrendingPost(postId: number): boolean {
     return  this.trendingPosts.some(post => post.id === postId);
   }
 
+  /**
+   * Filters the posts based on the author's name.
+   * Calls a method to load posts associated with the specified author.
+   *
+   * @param {string} authorName - The name of the author whose posts need to be filtered.
+   * @return {void} Does not return any value.
+   */
   filterPostsByAuthor(authorName: string): void {
     this.loadPosts(authorName);
   }
 
+  /**
+   * Sorts the posts by the number of likes in descending order.
+   *
+   * @return {void} This method does not return any value.
+   */
   filterMostLikedPosts(): void {
     this.posts.sort((a, b) => b.likes.length - a.likes.length);
   }
 
+  /**
+   * Filters and sorts the posts in descending order based on their creation date.
+   *
+   * @return {void} This method does not return a value. It directly modifies the posts array to ensure posts are ordered from most recent to oldest.
+   */
   filterMostRecentPosts(): void {
     this.posts.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
   }
 
+  /**
+   * Filters and sorts the posts by the most liked and most recent.
+   * This method modifies the `posts` array, sorting it primarily by the number of likes in descending order.
+   * If two posts have the same number of likes, they are further sorted by their creation date in descending order (most recent first).
+   *
+   * @return {void} This method does not return a value, it sorts the existing `posts` array in-place.
+   */
   filterMostLikedAndRecent(): void {
     this.posts.sort((a, b) => {
 
@@ -176,6 +242,15 @@ export class PostM implements OnInit, OnDestroy {
     });
   }
 
+  /**
+   * Handles filter change events and updates the displayed posts based on the selected filter.
+   *
+   * @param {string} filter - The filter criteria to apply. Possible values are:
+   *                          "recent" for filtering the most recent posts,
+   *                          "liked" for filtering the most liked posts, and
+   *                          "likedAndRecent" for filtering posts that are both liked and recent.
+   * @return {void} Does not return any value.
+   */
   onFilterChange(filter: string): void {
     switch (filter) {
       case "recent":
@@ -190,11 +265,23 @@ export class PostM implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Resets the applied filter by clearing the author's name filter
+   * and reloads the posts without any filter criteria.
+   *
+   * @return {void} Does not return a value.
+   */
   clearFilter(): void {
     this.filterAuthorName = "";
     this.loadPosts("");
   }
 
+  /**
+   * Calculates the time duration between the given creation time and the current time.
+   *
+   * @param {string} creationTime - The creation time in string format to calculate the duration from.
+   * @return {string} The formatted string representing the time duration in human-readable format, such as "Just now", "X min ago", "X hours ago", or "X days ago".
+   */
   calculateTimeDuration(creationTime: string): string {
     const now = new Date();
     const postTime = new Date(creationTime);
@@ -216,6 +303,11 @@ export class PostM implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Creates a new post object based on the input form and associated author ID.
+   *
+   * @return {PostRequest} Returns the newly created PostRequest object containing the title, content, and author ID.
+   */
   createNewPost(): PostRequest {
     const {title, content} = this.postForm.getRawValue();
     this.createdPost = new PostRequest();
@@ -226,6 +318,14 @@ export class PostM implements OnInit, OnDestroy {
     return this.createdPost;
   }
 
+  /**
+   * Saves a new post by sending a request to the backend service.
+   * Utilizes the dataService to send the post data to a specified API endpoint.
+   * Displays a success or failure notification based on the response from the service.
+   * Resets the post form and reloads it upon a successful save operation.
+   *
+   * @return {void} This method does not return any value.
+   */
   savePost(): void {
 
     const postToSave = this.createNewPost();
@@ -248,6 +348,12 @@ export class PostM implements OnInit, OnDestroy {
     )
   }
 
+  /**
+   * Adds a comment to a specific post based on the provided post-ID.
+   *
+   * @param {number} postId - The unique identifier of the post to which the comment will be added.
+   * @return {void} This method does not return a value.
+   */
   addComment(postId: number): void {
     const {content} = this.commentForms[postId].getRawValue();
 
@@ -274,12 +380,29 @@ export class PostM implements OnInit, OnDestroy {
     )
   }
 
+  /**
+   * Resets the post form, reloads posts with an empty search criteria,
+   * and collapses the panel to its default state.
+   *
+   * @return {void} No return value.
+   */
   resetAndReloadPostForm(): void {
     this.postForm.reset();
     this.loadPosts("");
     this.collapsePanel();
   }
 
+  /**
+   * Updates an existing post with any applicable changes provided by the user.
+   * Prompts the user for confirmation if changes are detected.
+   *
+   * This method creates a new post object, checks if there are updates to be made,
+   * and confirms with the user before proceeding. If confirmed, it calls the `update`
+   * service method to save the changes. Notifications are displayed to indicate
+   * the operation's success or failure.
+   *
+   * @return void Does not return any value.
+   */
   updatePost(): void {
 
     const postToUpdate = this.createNewPost();
@@ -315,7 +438,13 @@ export class PostM implements OnInit, OnDestroy {
     )
   }
 
-  deletePost(postId: number) {
+  /**
+   * Deletes a post after user confirmation.
+   *
+   * @param {number} postId - The unique identifier of the post to be deleted.
+   * @return {void} Does not return a value, but confirms deletion and refreshes the post-list or shows an error notification.
+   */
+  deletePost(postId: number): void {
     const userConfirmed = window.confirm("Are you sure you want to delete this post?");
     if (!userConfirmed) {
       return;
@@ -339,7 +468,15 @@ export class PostM implements OnInit, OnDestroy {
 
   }
 
-  likePost(action: "like" | "dislike" , postId: number) {
+  /**
+   * Processes a like or dislike action for a specific post by the current user.
+   * Persists the action and triggers a reload of posts upon success.
+   *
+   * @param {("like" | "dislike")} action - Specifies the action to perform. "like" indicates a positive reaction, "dislike" indicates a negative reaction.
+   * @param {number} postId - The unique identifier of the post to be liked or disliked.
+   * @return {void} Does not return a value.
+   */
+  likePost(action: "like" | "dislike" , postId: number): void {
 
     this.postLike = new Like();
     this.postLike.postId = postId;
@@ -358,6 +495,14 @@ export class PostM implements OnInit, OnDestroy {
     )
   }
 
+  /**
+   * Checks whether the current user has liked or disliked a specific post.
+   *
+   * @param {number} postId - The ID of the post to check.
+   * @param {Array<Like>} likes - An array of Like objects representing user interactions on posts.
+   * @param {boolean} isLike - The type of interaction to check; true for "like" and false for "dislike."
+   * @return {boolean} Returns true if the current user has the specified like or dislike status on the post, otherwise false.
+   */
   checkUserLikOrDislikeStatus(postId: number, likes: Array<Like>, isLike: boolean): boolean {
     return likes.some(like =>
       like.postId === postId &&
@@ -366,7 +511,15 @@ export class PostM implements OnInit, OnDestroy {
     );
   }
 
-  fillForm(id: number) {
+  /**
+   * Populates the form fields with the data of the post matching the provided ID.
+   * If a matching post is found, enables edit mode, copies the post data, and sets
+   * the form values accordingly.
+   *
+   * @param {number} id - The ID of the post to be edited.
+   * @return {void} This method does not return a value.
+   */
+  fillForm(id: number): void {
     const postToEdit = this.posts.find(post => post.id === id);
     if (postToEdit) {
       this.isEnableEditPost = true;
@@ -380,6 +533,14 @@ export class PostM implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Compares the properties of the createdPost and OldPost objects to identify changes.
+   * If there are any differences in the title or content between the two posts,
+   * it generates a summary of the updates.
+   *
+   * @return {string} A string summarizing the changes found between the two posts.
+   * If no changes are detected, the returned string will be empty.
+   */
   getUpdates(): string {
     let updates = "";
     if (this.createdPost.title !== this.OldPost.title) {
