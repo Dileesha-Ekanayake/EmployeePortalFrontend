@@ -1,0 +1,156 @@
+<mat-grid-list [cols]="12" rowHeight="4rem">
+  <mat-grid-tile [colspan]="12" [rowspan]="isExpanded ? 5 : 2">
+    <mat-card class="create-post-card">
+      <mat-card-content>
+        <mat-expansion-panel hideToggle [(expanded)]="isExpanded">
+
+          @if (!isExpanded) {
+            <mat-expansion-panel-header class="panel-header">
+              <mat-panel-title>
+                <mat-icon class="title-icon">person</mat-icon>
+              </mat-panel-title>
+
+              <mat-panel-description>
+                <p>Share something with your team...</p>
+                <button mat-raised-button color="primary"
+                        (click)="expandPanel(true)">+ Post
+                </button>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+          }
+
+          @if (isExpanded) {
+            <div class="post-form">
+              <form [formGroup]="postForm">
+                <div class="post-title">
+                  <mat-form-field appearance="outline">
+                    <mat-label>PostM Title...</mat-label>
+                    <input matInput formControlName="title">
+                    @if (postForm.get('title')?.invalid && postForm.get('title')?.touched) {
+                      <mat-error>
+                        <span>Title is required</span>
+                      </mat-error>
+                    }
+                  </mat-form-field>
+                </div>
+                <div class="post-content">
+                  <mat-form-field appearance="outline">
+                    <mat-label>PostM Content...</mat-label>
+                    <textarea matInput rows="4" formControlName="content"></textarea>
+                    @if (postForm.get('content')?.invalid && postForm.get('content')?.touched) {
+                      <mat-error>
+                        <span>Content is required</span>
+                      </mat-error>
+                    }
+                  </mat-form-field>
+                </div>
+                <div class="post-button">
+                  <button mat-raised-button color="primary" (click)="collapsePanel()">Cancel</button>
+                  <button mat-raised-button color="primary" [disabled]="!postForm.valid">Share Post</button>
+                </div>
+              </form>
+            </div>
+          }
+        </mat-expansion-panel>
+      </mat-card-content>
+    </mat-card>
+  </mat-grid-tile>
+
+  <mat-grid-tile [colspan]="12" [rowspan]="8">
+    <div class="posts-container">
+      <div class="posts-grid">
+        @for (post of posts; track post.id) {
+          <mat-card class="post-card">
+            <mat-card-content>
+              <div class="user-info">
+                <div class="user-icon">
+                  <mat-icon>person</mat-icon>
+                </div>
+                <div class="user-post-details">
+                  <span class="user-name">{{ post.authorName }}</span>
+                  <span class="user-role-time">{{ post.authorRole }}
+                    <mat-icon>query_builder</mat-icon>
+                    {{ calculateTimeDuration(post.createdAt) }}</span>
+                </div>
+              </div>
+
+              <div class="post-body">
+                <p class="post-title">{{ post.title }}</p>
+                <p class="post-content">{{ post.content }}</p>
+              </div>
+
+              <mat-divider></mat-divider>
+
+              <div class="post-actions">
+                <div class="action-button-container">
+                  <button class="like-button">
+                    <mat-icon matIconSuffix>thumb_up</mat-icon>
+                    {{ post.likeCount }}
+                  </button>
+                  <button class="like-button">
+                    <mat-icon matIconSuffix>thumb_down</mat-icon>
+                    {{ post.dislikeCount }}
+                  </button>
+                </div>
+                <div class="comment-place-holder">
+                  <mat-icon>comment</mat-icon>
+                  <span>{{ post.comments.length }} comments</span>
+                </div>
+              </div>
+
+              @if (post.comments.length > 0) {
+                <mat-divider></mat-divider>
+
+                <div class="comments-container">
+                  @for (comment of post.comments; track comment.id) {
+                    <div class="user-info">
+                      <div class="user-icon">
+                        <mat-icon>person</mat-icon>
+                      </div>
+                      <div class="user-comment-details">
+                        <div class="user-info-header">
+                          <span class="user-name">{{ comment.userName }}</span>
+                          <span class="user-role-time">{{ comment.userRole }}
+                            <mat-icon>query_builder</mat-icon>
+                            {{ calculateTimeDuration(comment.createdAt) }}</span>
+                        </div>
+
+                        <div class="comment-body">
+                          <span class="comment-content">{{ comment.content }}</span>
+                        </div>
+                      </div>
+                    </div>
+
+                  }
+                </div>
+              }
+
+              <mat-divider></mat-divider>
+
+              <div class="comment-form-container">
+                <form [formGroup]="commentForm" class="comment-form">
+                  <mat-icon>person</mat-icon>
+                  <mat-form-field appearance="outline">
+                    <mat-label>Comment...</mat-label>
+                    <input matInput formControlName="content">
+                    @if (commentForm.get('content')?.invalid && commentForm.get('content')?.touched) {
+                      <mat-error>
+                        <span>Comment is required</span>
+                      </mat-error>
+                    }
+                  </mat-form-field>
+                  <button mat-icon-button color="primary"
+                          [disabled]="!commentForm.valid"
+                  >
+                    <mat-icon matIconSuffix>send</mat-icon>
+                  </button>
+                </form>
+              </div>
+
+            </mat-card-content>
+          </mat-card>
+        }
+      </div>
+    </div>
+  </mat-grid-tile>
+</mat-grid-list>

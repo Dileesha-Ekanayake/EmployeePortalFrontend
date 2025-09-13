@@ -14,8 +14,8 @@ export const routes: Routes = [
         loadComponent: () => import('./view/dashboard/dashboard').then(c => c.Dashboard),
       },
       {
-        path: "Post",
-        loadComponent: () => import('./view/module/post/post').then(c => c.Post),
+        path: "PostM",
+        loadComponent: () => import('./view/module/post/post.m').then(c => c.PostM),
       },
       {
         path: "User",

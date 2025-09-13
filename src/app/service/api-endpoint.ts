@@ -17,5 +17,7 @@ export const ApiEndpoints = {
   baseUrl,
   paths: {
     login: `${baseUrl}/api/Auth/login`,
+
+    post: `${baseUrl}/api/Posts`,
   }
 } as const;

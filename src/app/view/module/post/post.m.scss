@@ -1,0 +1,347 @@
+mat-grid-list {
+  background: #fafafa;
+  margin: 2rem 4rem 2rem 4rem;
+}
+
+mat-grid-tile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #fafafa;
+  margin-bottom: 1rem;
+}
+
+mat-card {
+  width: 100%;
+  height: 100%;
+}
+
+.create-post-card {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background: white;
+  border: 1px solid #e5e7eb;
+  box-shadow: unset;
+}
+
+mat-expansion-panel {
+  background: white;
+  box-shadow: unset !important;
+  border-radius: 8px;
+
+  .mat-expansion-panel-content {
+    padding: 0 !important;
+  }
+
+  .panel-header {
+
+    cursor: pointer;
+    padding: 16px;
+    height: auto !important;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: white !important;
+    }
+
+    .title-icon {
+      font-size: 24px;
+      margin-right: 10px;
+      background-color: #f3f4f6;
+      padding: 10px;
+      color: #9d9d9d;
+      border-radius: 50%;
+    }
+
+    p {
+      background-color: #f3f4f6;
+      width: 130%;
+      margin-left: -45%;
+      padding: 10px;
+      border-radius: 50px;
+      color: #9d9d9d;
+    }
+
+    .mat-expansion-panel-header-description {
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    button {
+      background-color: #3b82f6 !important;
+      color: white !important;
+      border: unset;
+      border-radius: 12px;
+    }
+  }
+}
+
+::ng-deep mat-expansion-panel:hover {
+  background: unset !important;
+}
+
+.post-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-top: 20px;
+  border-radius: 8px;
+  margin: 16px;
+
+  mat-form-field {
+    width: 100%;
+    --mat-form-field-container-height: 40px;
+    --mat-form-field-container-vertical-padding: 8px;
+    padding-bottom: 10px;
+  }
+
+  .post-button {
+    display: flex;
+    justify-content: flex-end;
+    gap: 16px;
+
+    button:first-child {
+      background-color: unset !important;
+      box-shadow: unset !important;
+      color: #6b7280 !important;
+      border: unset;
+    }
+
+    button:last-child {
+      background-color: #3b82f6 !important;
+      color: white !important;
+      border-radius: 12px;
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    }
+  }
+}
+
+
+.posts-container {
+  width: 100%;
+  height: 100%;
+  overflow-x: auto;
+}
+
+.posts-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 100%;
+  overflow-x: auto;
+  padding: 16px 0;
+}
+
+.post-card {
+  width: 100%;
+  background: white;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  transition: box-shadow 0.2s ease;
+  overflow-x: auto;
+  margin-bottom: 8px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  mat-card-content {
+    padding: 20px;
+    overflow-x: auto;
+  }
+
+  .user-info {
+    display: flex;
+    flex-direction: row;
+
+    .user-icon mat-icon {
+      font-size: 24px;
+      margin-right: 10px;
+      background-color: #f3f4f6;
+      padding: 10px;
+      color: #9d9d9d;
+      border-radius: 50%;
+    }
+
+    .user-post-details {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      margin-left: 10px;
+      gap: 5px;
+
+      .user-name {
+        font-size: 16px;
+        font-weight: 500;
+        color: #111827;
+      }
+
+      .user-role-time {
+        font-size: 14px;
+        color: #6b7280;
+
+        mat-icon {
+          font-size: 14px;
+          margin-bottom: -12px;
+          margin-left: 15px;
+        }
+      }
+    }
+  }
+
+  .post-body {
+    .post-title {
+      font-size: 20px;
+      font-weight: 500;
+      color: #1f2937;
+      padding-left: 5px;
+      margin-bottom: 10px;
+    }
+
+    .post-content {
+      font-size: 16px;
+      padding-left: 5px;
+      color: #4b5563;
+    }
+  }
+
+  .post-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 10px;
+
+    .action-button-container {
+      display: flex;
+      flex-direction: row;
+      gap: 8px;
+      align-items: center;
+
+      button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+        background-color: unset !important;
+        box-shadow: unset !important;
+        color: #6b7280 !important;
+        border: unset;
+
+        mat-icon {
+          font-size: 20px;
+        }
+      }
+    }
+
+    .comment-place-holder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      background-color: unset !important;
+      box-shadow: unset !important;
+      color: #6b7280 !important;
+      border: unset;
+
+      mat-icon {
+        font-size: 20px;
+      }
+    }
+  }
+
+  .comments-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 20px 10px 10px 10px;
+  }
+
+  .user-comment-details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 10px;
+    gap: 5px;
+
+    .user-info-header {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+
+    .user-name {
+      font-size: 16px;
+      font-weight: 500;
+      color: #111827;
+    }
+
+    .user-role-time {
+      font-size: 14px;
+      color: #6b7280;
+      padding-left: 10px;
+
+      mat-icon {
+        font-size: 14px;
+        margin-bottom: -12px;
+        margin-left: 15px;
+      }
+    }
+  }
+
+  .comment-form-container {
+    padding: 20px 10px;
+  }
+
+  .comment-form {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+
+    mat-icon {
+      font-size: 24px;
+      margin-right: 10px;
+      background-color: #f3f4f6;
+      padding: 10px;
+      color: #9d9d9d;
+      border-radius: 50%;
+    }
+
+    mat-form-field {
+      width: 90%;
+      --mat-form-field-container-height: 40px;
+      --mat-form-field-container-vertical-padding: 8px;
+    }
+
+    button {
+      background-color: #3b82f6 !important;
+      color: white !important;
+      border-radius: 12px;
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      mat-icon {
+        font-size: 24px;
+        margin: -10px 0 0 -8px;
+        background-color: unset;
+        color: #fdfdfe;
+        border-radius: 50%;
+      }
+    }
+  }
+}
+
+

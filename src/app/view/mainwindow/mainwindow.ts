@@ -31,7 +31,7 @@ export class Mainwindow implements OnInit {
   }
 
   ngOnInit(): void {
-    this.router.navigateByUrl("Main/portal");
+    this.router.navigateByUrl("Main/PostM");
   }
 
   logout() {
