@@ -25,5 +25,9 @@ export const ApiEndpoints = {
     comment: `${baseUrl}/api/Comments`,
 
     like: `${baseUrl}/api/Posts/Likes`,
+
+    user: `${baseUrl}/api/Users`,
+
+    userRole: `${baseUrl}/api/Roles`,
   }
 } as const;

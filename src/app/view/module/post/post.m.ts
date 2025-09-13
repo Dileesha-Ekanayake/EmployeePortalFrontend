@@ -162,7 +162,7 @@ export class PostM implements OnInit, OnDestroy {
           this.posts.forEach(post => {this.initializeCommentFormPerPost(post.id)})
         },
         error: (error) => {
-          console.error("Error fetching posts:", error);
+          console.error("Error fetching posts:", error.message);
         }
       })
     )
@@ -181,7 +181,7 @@ export class PostM implements OnInit, OnDestroy {
           this.trendingPosts = response;
         },
         error: (error) => {
-          console.error("Error fetching trending posts:", error);
+          console.error("Error fetching trending posts:", error.message);
         }
       })
     )

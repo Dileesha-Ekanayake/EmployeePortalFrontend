@@ -8,11 +8,11 @@
       <mat-card-content>
         <form [formGroup]="loginForm">
           <mat-form-field appearance="outline" class="full-width">
-            <mat-label>User Name</mat-label>
-            <input matInput formControlName="username" type="text" placeholder="Enter your User Name"/>
+            <mat-label>UserM Name</mat-label>
+            <input matInput formControlName="username" type="text" placeholder="Enter your UserM Name"/>
             @if (loginForm.get('username')?.invalid && loginForm.get('username')?.touched) {
               <mat-error>
-                <span>User Name is required</span>
+                <span>UserM Name is required</span>
               </mat-error>
             }
           </mat-form-field>

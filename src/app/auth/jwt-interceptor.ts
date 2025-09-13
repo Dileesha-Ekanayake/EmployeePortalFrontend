@@ -40,7 +40,7 @@ export const JwtInterceptor: HttpInterceptorFn = (request, next) => {
       }
     });
   } else {
-    console.warn("User not authenticated. Logging out...");
+    console.warn("UserM not authenticated. Logging out...");
     authService.logout();
     return next(request);
   }

@@ -19,7 +19,7 @@ export const routes: Routes = [
       },
       {
         path: "User",
-        loadComponent: () => import('./view/module/user/user').then(c => c.User),
+        loadComponent: () => import('./view/module/user/user.m').then(c => c.UserM),
       }
     ]
   }

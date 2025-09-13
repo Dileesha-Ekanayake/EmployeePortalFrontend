@@ -1,0 +1,96 @@
+<mat-grid-list [cols]="12" rowHeight="3rem" gutterSize="0.7rem">
+
+  <mat-grid-tile colspan="12" [rowspan]="!isExpandUserForm ? 2 : 7">
+    <mat-card>
+      <mat-card-content>
+        <div class="user-management-header">
+          <p>User Management</p>
+          <button mat-raised-button color="primary" (click)="expandUserForm()">+ Add User</button>
+        </div>
+
+        @if (isExpandUserForm) {
+          <div class="user-from-container">
+            <form [formGroup]="userForm" class="user-form">
+              <mat-form-field appearance="outline">
+                <mat-label>Enter User Name</mat-label>
+                <input matInput placeholder="Enter User Name" formControlName="userName">
+                @if (userForm.get('userName')?.invalid && userForm.get('userName')?.touched) {
+                  <mat-error>
+                    <span>User Name is required</span>
+                  </mat-error>
+                }
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Enter Password</mat-label>
+                <input matInput placeholder="Enter Password" formControlName="password" type="password">
+                @if (userForm.get('password')?.invalid && userForm.get('password')?.touched) {
+                  <mat-error>
+                    <span>Password is incorrect or empty</span>
+                  </mat-error>
+                }
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Select Role</mat-label>
+                <mat-select formControlName="userRole">
+                  @for (role of userRoles; track role.id) {
+                    <mat-option [value]="role">{{ role.name }}</mat-option>
+                  }
+                </mat-select>
+                @if (userForm.get('userRole')?.invalid && userForm.get('userRole')?.touched) {
+                  <mat-error>
+                    <span>Role is required</span>
+                  </mat-error>
+                }
+              </mat-form-field>
+
+              <div class="user-form-actions">
+                <button mat-raised-button color="primary"
+                        (click)="clearUserCreation()">Cancel</button>
+                <button mat-raised-button color="primary"
+                        [disabled]="!userForm.valid"
+                        (click)="saveUser()"
+                >
+                  Create User
+                </button>
+              </div>
+            </form>
+          </div>
+        }
+      </mat-card-content>
+    </mat-card>
+  </mat-grid-tile>
+
+  <mat-grid-tile [colspan]="12" [rowspan]="8">
+    <mat-card class="user-list-card">
+      <mat-card-header class="user-list-header">
+        <mat-card-title>All Users</mat-card-title>
+      </mat-card-header>
+      <mat-divider></mat-divider>
+      <mat-card-content>
+        @for (user of users; track $index) {
+          <div class="user-list-item">
+            <div class="user-list-item-details">
+              @if (user.role.name.trim().toLowerCase() === 'admin') {
+                <div class="user-icon">
+                  <mat-icon class="admin-icon">admin_panel_settings</mat-icon>
+                </div>
+              } @else {
+                <div class="user-icon">
+                  <mat-icon class="employee-icon">person</mat-icon>
+                </div>
+              }
+              <div class="user-name">{{ user.userName }}</div>
+              <div class="user-role"
+                   [ngClass]="{'admin': user.role.name === 'Admin', 'employee': user.role.name === 'Employee'}">
+                {{ user.role.name }}
+              </div>
+            </div>
+          </div>
+        }
+      </mat-card-content>
+    </mat-card>
+  </mat-grid-tile>
+
+</mat-grid-list>
