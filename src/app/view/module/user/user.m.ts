@@ -62,7 +62,9 @@ export class UserM implements OnInit, OnDestroy {
 
     this.userForm = this.formBuilder.group({
       userName: ['', Validators.required],
-      password: ['', [Validators.required, Validators.minLength(4), Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)]],
+      password: ['', [Validators.required,
+        Validators.minLength(4),
+        Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)]],
       userRole: ['', Validators.required],
     })
   }
@@ -117,26 +119,37 @@ export class UserM implements OnInit, OnDestroy {
   }
 
   saveUser(): void {
-
     const userToSave = this.createUser();
 
     this.dataSubscriber$.add(
       this.dataService.save<UserRequest>(ApiEndpoints.paths.user, userToSave).subscribe({
-        next: () => {
-          this.notificationService.showSuccess("Successfully created user", {
-            theme: "light"
-          });
-          this.resetAndReload();
+        next: (res: any) => {
+          if (res.status === 201) {
+            this.notificationService.showSuccess("Successfully created user", { theme: "light" });
+            this.resetAndReload();
+          }else {
+            this.notificationService.showFailure("Failed to create user", { theme: "light" });
+            this.resetAndReload();
+          }
         },
         error: (error) => {
-          this.notificationService.showFailure("Failed to create user : " + error.message, {
-            theme: "light"
-          });
+          // Check error status and show appropriate message
+          if (error.status === 400) {
+            // Bad Request: validation errors or duplicate username
+            const message = error.error?.message || "Invalid input";
+            this.notificationService.showFailure("Failed to create user: " + message, { theme: "light" });
+          } else if (error.status === 500) {
+            // Internal server error
+            this.notificationService.showFailure("Server error occurred while creating user", { theme: "light" });
+          } else {
+            // Other errors
+            this.notificationService.showFailure("Unexpected error: " + error.message, { theme: "light" });
+          }
         }
       })
-    )
-
+    );
   }
+
 
   resetAndReload(): void {
     this.clearUserCreation();
@@ -149,6 +162,6 @@ export class UserM implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-
+    this.dataSubscriber$.unsubscribe();
   }
 }
