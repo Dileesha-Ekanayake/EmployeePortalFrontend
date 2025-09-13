@@ -111,7 +111,6 @@ export class PostM implements OnInit, OnDestroy {
       this.dataService.getData<Post>(ApiEndpoints.paths.post, queryParam.toString()).subscribe({
         next: (response: Array<Post>) => {
           this.posts = response;
-          console.log(this.posts);
         },
         error: (error) => {
           console.error("Error fetching posts:", error);
@@ -123,11 +122,11 @@ export class PostM implements OnInit, OnDestroy {
   calculateTimeDuration(creationTime: string): string {
     const now = new Date();
     const postTime = new Date(creationTime);
-    const diffMs = now.getTime() - postTime.getTime();
+    const msDifference = now.getTime() - postTime.getTime();
 
-    const minutes = Math.floor(diffMs / (1000 * 60));
-    const hours = Math.floor(diffMs / (1000 * 60 * 60));
-    const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+    const minutes = Math.floor(msDifference / (1000 * 60));
+    const hours = Math.floor(msDifference / (1000 * 60 * 60));
+    const days = Math.floor(msDifference / (1000 * 60 * 60 * 24));
 
     if (minutes < 1) {
       return "Just now";
@@ -158,7 +157,7 @@ export class PostM implements OnInit, OnDestroy {
     this.dataSubscriber$.add(
       this.dataService.save<PostRequest>(ApiEndpoints.paths.post, postToSave).subscribe({
         next: (response) => {
-          this.notificationService.showSuccess("Successfully created post.", {
+          this.notificationService.showSuccess("Successfully created post. : " + JSON.parse(response).title, {
             theme: "light"
           })
          this.resetAndReloadPostForm();
@@ -183,7 +182,7 @@ export class PostM implements OnInit, OnDestroy {
 
     this.dataSubscriber$.add(
       this.dataService.save<CommentRequest>(ApiEndpoints.paths.comment, this.comment).subscribe({
-        next: (response) => {
+        next: () => {
           this.notificationService.showSuccess("Successfully added comment.", {
             theme: "light"
           })
@@ -205,19 +204,71 @@ export class PostM implements OnInit, OnDestroy {
     this.collapsePanel();
   }
 
-  ngOnDestroy(): void {
-    this.dataSubscriber$.unsubscribe();
+  updatePost(): void {
+
+    const postToUpdate = this.createNewPost();
+
+    if (this.getUpdates() === "") {
+      window.alert("No changes detected.");
+      return;
+    }
+
+    const userConfirmed = window.confirm("Are you sure you want to update the post?\n" + this.getUpdates());
+
+    if (!userConfirmed) {
+      return;
+    }
+
+    postToUpdate.id = this.OldPost.id;
+
+    this.dataSubscriber$.add(
+      this.dataService.update<PostRequest>(ApiEndpoints.paths.post, postToUpdate).subscribe({
+        next: (response) => {
+          this.notificationService.showSuccess("Successfully updated post. : " + JSON.parse(response).title, {
+            theme: "light"
+          })
+          this.resetAndReloadPostForm();
+        },
+        error: (error) => {
+          this.notificationService.showFailure("Failed to create post.", {
+            theme: "light"
+          })
+          console.error("Error creating post:", error.message);
+        }
+      })
+    )
   }
 
   deletePost(postId: number) {
+    const userConfirmed = window.confirm("Are you sure you want to delete this post?");
+    if (!userConfirmed) {
+      return;
+    }
+
+    this.dataSubscriber$.add(
+      this.dataService.delete(ApiEndpoints.paths.post, postId).subscribe({
+        next: () => {
+          this.notificationService.showSuccess("Successfully deleted post.", {
+            theme: "light"
+          })
+          this.loadPosts("");
+        },
+        error: (error) => {
+          this.notificationService.showFailure("Failed to delete post. : " + error.message, {
+            theme: "light"
+          })
+        }
+      })
+    )
 
   }
 
-  editPost(id: number) {
+  fillForm(id: number) {
     const postToEdit = this.posts.find(post => post.id === id);
     if (postToEdit) {
       this.isEnableEditPost = true;
-      this.OldPost = postToEdit;
+      this.createdPost = JSON.parse(JSON.stringify(postToEdit));
+      this.OldPost = JSON.parse(JSON.stringify(postToEdit));
       this.postForm.setValue({
         title: this.OldPost.title,
         content: this.OldPost.content
@@ -226,6 +277,20 @@ export class PostM implements OnInit, OnDestroy {
     }
   }
 
-  protected readonly Number = Number;
+  getUpdates(): string {
+    let updates = "";
+    if (this.createdPost.title !== this.OldPost.title) {
+        updates += "Title changed" + "\n";
+    }
+    if (this.createdPost.content !== this.OldPost.content) {
+      updates += "Content changed" + "\n";
+    }
+    return updates;
+  }
+
+  ngOnDestroy(): void {
+    this.dataSubscriber$.unsubscribe();
+  }
+
 }
 

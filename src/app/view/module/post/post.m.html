@@ -47,7 +47,7 @@
                 <div class="post-button">
                   <button mat-raised-button color="primary" (click)="collapsePanel()">Cancel</button>
                   <button mat-raised-button color="primary" [disabled]="!postForm.valid"
-                          (click)="savePost()">
+                          (click)="!isEnableEditPost ? savePost() : updatePost()">
                     {{ isEnableEditPost? 'Edit Post' : 'Share Post' }}
                   </button>
                 </div>
@@ -77,7 +77,7 @@
                 </div>
                 @if (post.author.id === currentUId) {
                   <div class="post-action-button-container">
-                    <button mat-icon-button color="primary" class="edit-post" (click)="editPost(post.id)">
+                    <button mat-icon-button color="primary" class="edit-post" (click)="fillForm(post.id)">
                       <mat-icon>edit</mat-icon>
                     </button>
                     <button mat-icon-button color="primary" class="delete-post" (click)="deletePost(post.id)">
