@@ -112,5 +112,17 @@ mat-toolbar-row {
     .list-item:hover {
       border-bottom: 2px solid #3b82f6;
     }
+
+    .list-item span[matLine] {
+      color: #6b7280;
+      font-weight: 400;
+    }
+
+    .list-item:hover span[matLine] {
+      color: #3b82f6;
+      font-weight: 500;
+    }
   }
 }
+
+
