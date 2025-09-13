@@ -1,6 +1,7 @@
 import {HttpInterceptorFn} from '@angular/common/http';
 import {inject} from "@angular/core";
 import {catchError, throwError} from "rxjs";
+import {AuthorizationManagerService} from './authorization-manager.service';
 
 /**
  * JwtInterceptor is an HttpInterceptor function that intercepts HTTP requests to add a JWT
@@ -28,6 +29,7 @@ import {catchError, throwError} from "rxjs";
  * Intended Usage: To automatically include a JWT token in HTTP requests for protected API endpoints.
  */
 export const JwtInterceptor: HttpInterceptorFn = (request, next) => {
+  const authService = inject(AuthorizationManagerService);
   // @ts-ignore
   const jwtToken = localStorage.getItem('authToken');
 
@@ -39,12 +41,14 @@ export const JwtInterceptor: HttpInterceptorFn = (request, next) => {
     });
   } else {
     console.warn("User not authenticated. Logging out...");
+    authService.logout();
     return next(request);
   }
 
   return next(request).pipe(
     catchError(err => {
       if (err.status === 401) {
+        authService.logout();
         console.warn("Unauthorized request. Logging out...");
       }
       return throwError(() => err);

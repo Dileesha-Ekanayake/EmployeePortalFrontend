@@ -18,6 +18,9 @@
         <label class="username">{{ authorizationManagerService.getUsername() }}</label>
         <label class="userrole">{{ authorizationManagerService.getUserRole() }}</label>
       </div>
+      <mat-icon class="logout-icon" (click)="logout()">logout</mat-icon>
     </span>
   </mat-toolbar-row>
 </mat-toolbar>
+
+<router-outlet/>

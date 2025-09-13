@@ -1,12 +1,15 @@
 import {Injectable, OnDestroy} from '@angular/core';
 import {jwtDecode} from "jwt-decode";
+import {Router} from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthorizationManagerService {
 
-  constructor() { }
+  constructor(
+    private router: Router
+  ) { }
 
   getUsername(): string {
     // @ts-ignore
@@ -72,6 +75,7 @@ export class AuthorizationManagerService {
 
   logout(): void {
     this.clearUserDetails();
+    this.router.navigateByUrl("login");
   }
 
 }
