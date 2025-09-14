@@ -1,10 +1,13 @@
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse, HttpResponse} from "@angular/common/http";
 import {Injectable} from "@angular/core";
-import {Observable} from "rxjs";
+import {catchError, Observable, throwError} from "rxjs";
 import {ApiEndpoints} from '../service/api-endpoint';
 
 /**
- * Service responsible for handling authentication-related operations.
+ * Service responsible for handling user authentication.
+ *
+ * This service provides methods to allow users to authenticate by interacting
+ * with the backend API.
  */
 @Injectable({
   providedIn: 'root'
@@ -16,16 +19,19 @@ export class AuthenticateService {
   }
 
   /**
-   * Authenticates a user by sending their credentials to the server.
+   * Authenticates a user using their username and password credentials.
    *
-   * @param {string} username - The username of the user attempting to authenticate.
-   * @param {string} password - The password of the user attempting to authenticate.
-   * @return {Observable<any>} An observable that emits the server response containing the authentication token.
+   * @param {string} username The username of the user attempting to authenticate.
+   * @param {string} password The password of the user attempting to authenticate.
+   * @return {Observable<HttpResponse<{ token: string }>>} An observable that emits the HTTP response containing the authentication token on successful authentication.
    */
-  authenticate(username: string, password: string) : Observable<any>{
-    return this.http.post<{ token: string }>(ApiEndpoints.paths.login,
-      {username, password},
-      {observe: 'response'});
+  authenticate(username: string, password: string): Observable<HttpResponse<{ token: string }>> {
+    return this.http.post<{ token: string }>(
+      ApiEndpoints.paths.login,
+      { username, password },
+      { observe: 'response' }
+    ).pipe(
+      catchError((error) => throwError(() => error))
+    );
   }
-
 }

@@ -8,6 +8,8 @@ import {AuthenticateService} from '../../auth/authenticate.service';
 import {MatGridList, MatGridTile} from '@angular/material/grid-list';
 import {Subscription} from 'rxjs';
 import {AuthorizationManagerService} from '../../auth/authorization-manager.service';
+import {SimpleResponseHandler} from '../../util/simple-response-handler';
+import {AvNotificationService} from '@avoraui/av-notifications';
 
 @Component({
   selector: 'app-login',
@@ -40,7 +42,9 @@ export class Login implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private router: Router,
     private authenticateService: AuthenticateService,
-    private authorizationManagerService: AuthorizationManagerService
+    private simpleResponseHandler: SimpleResponseHandler,
+    private authorizationManagerService: AuthorizationManagerService,
+    private notificationService: AvNotificationService,
   ) {
 
     this.loginForm = this.formBuilder.group({
@@ -71,19 +75,17 @@ export class Login implements OnInit, OnDestroy {
     this.dataSubscriber$.add(
       this.authenticateService.authenticate(username, password).subscribe({
         next: (response: any) => {
-          let token = response.body?.token; // read token from JSON body
+          let token = response.body?.token;
           if (token) {
+            this.notificationService.showSuccess("Successfully logged in", {
+              theme: "light"
+            })
             this.authorizationManagerService.setAuthDetails(token);
             this.router.navigateByUrl("Main/Post");
           }
         },
         error: (error) => {
-          if (error.status === 401) {
-            console.error("Unauthorized");
-          }
-          if (this.router.url !== "/login") {
-            this.router.navigateByUrl("login");
-          }
+          this.simpleResponseHandler.handleErrorResponse(error);
         }
       })
     )
