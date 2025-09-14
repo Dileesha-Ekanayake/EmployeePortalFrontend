@@ -48,7 +48,7 @@ export class Mainwindow implements OnInit {
    *
    * @return {void} No return value.
    */
-  logout() {
+  logout(): void {
     this.authorizationManagerService.logout();
   }
 }
