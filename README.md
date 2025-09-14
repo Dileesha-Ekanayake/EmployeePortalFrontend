@@ -1,59 +1,139 @@
-# EmployeePortalFrontend
+# Employee Collaboration Portal - Client
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.1.1.
+An Angular frontend application for the Employee Collaboration Portal that provides a modern, responsive interface for employee collaboration and content management.
 
-## Development server
+## 🚀 Features
 
-To start a local development server, run:
+- **Modern UI/UX**: Clean, responsive design with Angular Material
+- **User Authentication**: Login/logout with JWT token management
+- **Role-Based Access**: Different interfaces for Admin and Employee roles
+- **Post Management**: Create, edit, delete, and view posts with rich content
+- **Interactive Comments**: Add, edit, and manage comments on posts
+- **Like/Dislike System**: Engage with posts through likes and dislikes
+- **Advanced Filtering**: Filter posts by author, sort by date or popularity
+- **Dashboard**: Comprehensive metrics and user management
+- **Trending Content**: Highlight popular posts with 5+ likes
+- **Form Validation**: Real-time validation with user-friendly error messages
+- **Responsive Design**: Works seamlessly on desktop, tablet, and mobile
+
+## 🛠️ Technology Stack
+
+- **Angular 20+** - Frontend Framework
+- **Angular Material** - UI Component Library
+- **TypeScript** - Programming Language
+- **RxJS** - Reactive Programming
+- **Angular CLI** - Development Tools
+- **SCSS** - Styling
+
+## 📋 Prerequisites
+
+- [Node.js 22.x or higher](https://nodejs.org/)
+- [npm 10.x or higher](https://www.npmjs.com/)
+- [Angular CLI](https://angular.io/cli)
+
+## ⚙️ Installation & Setup
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/Dileesha-Ekanayake/EmployeePortalFrontend.git
+```
+
+### 2. Install Dependencies
+
+```bash
+npm install
+```
+
+### 2. Development Server
 
 ```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Navigate to `http://localhost:4200/`. The application will automatically reload if you change any source files.
 
-## Code scaffolding
+## 🔐 Default Admin Account:
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+- **Username**: Dileesha
+- **Password**: Admin@1234
 
-```bash
-ng generate component component-name
+## For every other User Account:
+
+- **Username**: The username of the User
+- **Password**: {"Username"}@1234
+
+## 🎨 UI Components & Features
+
+### Dashboard
+
+- Total users, posts, and comments metrics
+- Interactive charts and statistics
+- Quick actions for user management
+- Trending posts overview
+
+### Post Management
+
+- Rich text editor for post creation
+- Real-time post updates
+- Edit/delete functionality for own post
+- Author filtering and sorting options
+- Like/dislike interactions with animations
+
+### Comment System
+
+- Threaded comment display
+- Real-time comment addition
+- Author and timestamp information
+
+### User Management (Admin Only)
+
+- Create new users with role assignment
+- View all registered users
+- User role management
+- Account status controls
+
+## 📁 Project Structure
+
+```
+EmployeePortalFrontend/
+├── src/
+│   ├── app/
+│   │   ├── auth/                    # Authentication components & services
+│   │   │   ├── authenticate.service.ts
+│   │   │   ├── authorization-manager.service.ts
+│   │   │   └── jwt-interceptor.ts
+│   │   ├── entity/                  # Data models & interfaces
+│   │   ├── service/                 # HTTP services
+│   │   │   ├── api-endpoint.ts
+│   │   │   └── data.service.ts
+│   │   ├── util/                    # Utility functions & helpers
+│   │   │   └── simple-response-handler.ts
+│   │   ├── view/                    # Page components & views
+│   │   │   ├── dashboard/           # Dashboard
+│   │   │   ├── login/               # Authentication pages
+│   │   │   ├── mainwindow/          # Main layout component
+│   │   │   └── module/              # Feature modules
+│   │   │       ├── post/            # Post Component
+│   │   │       └── user/            # User Component
+│   │   ├── app.config.ts            # App configuration
+│   │   ├── app.html                 # Main app template
+│   │   ├── app.routes.ts            # Application routing
+│   │   ├── app.scss                 # Global app styles
+│   │   ├── app.spec.ts              # App unit tests
+│   │   └── app.ts                   # Root app component
+│   ├── index.html                   # Main HTML file
+│   ├── main.ts                      # Bootstrap file
+│   └── styles.scss                  # Global styles
+├── angular.json                     # Angular CLI configuration
+├── package.json                     # npm dependencies
+└── tsconfig.json                    # TypeScript configuration
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## 🤝 Contributing
 
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/new-feature`
+3. Commit changes: `git commit -am 'Add new feature'`
+4. Push to branch: `git push origin feature/new-feature`
+5. Submit a pull request
