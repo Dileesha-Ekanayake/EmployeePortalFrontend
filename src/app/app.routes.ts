@@ -11,7 +11,7 @@ export const routes: Routes = [
     children: [
       {
         path: "Dashboard",
-        loadComponent: () => import('./view/dashboard/dashboard').then(c => c.Dashboard),
+        loadComponent: () => import('./view/dashboard/dashboard.m').then(c => c.DashboardM),
       },
       {
         path: "Post",

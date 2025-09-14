@@ -50,6 +50,22 @@ export class DataService {
   }
 
   /**
+   * Fetches data from the specified API endpoint and optionally includes a query parameter.
+   *
+   * @param {string} endpoint - The API endpoint to call.
+   * @param {string | number} [query] - Optional query parameter to append to the endpoint.
+   * @return {Observable<T>} An Observable containing the data retrieved from the API.
+   */
+  getDataObject<T>(endpoint: string, query?: string | number): Observable<T> {
+    return this.http.get<T>(query ? `${endpoint}/${query}` : endpoint).pipe(
+      map(response => {
+        if (!response) throw new Error('No data returned from server');
+        return response;
+      })
+    );
+  }
+
+  /**
    * Sends a POST request to save the provided data to the specified endpoint.
    *
    * @param {string} endpoint - The API endpoint to which the data is sent.

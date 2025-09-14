@@ -18,6 +18,8 @@ export const ApiEndpoints = {
   paths: {
     login: `${baseUrl}/api/Auth/Login`,
 
+    dashBoard: `${baseUrl}/api/Dashboard`,
+
     post: `${baseUrl}/api/Posts`,
 
     trending: `${baseUrl}/api/Posts/Trending`,

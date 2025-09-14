@@ -1,0 +1,57 @@
+<mat-grid-list [cols]="12" rowHeight="4rem" gutterSize="0.7rem">
+
+  <mat-grid-tile [colspan]="4" [rowspan]="3">
+    <mat-card class="dashboard-card">
+      <mat-card-content>
+        <div class="header">
+          Total Users
+        </div>
+        <div class="body">
+          <div class="icon">
+            <mat-icon class="group-icon">group</mat-icon>
+          </div>
+          <div class="content">
+            {{ dashboard?.totalUsers }}
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </mat-grid-tile>
+
+  <mat-grid-tile [colspan]="4" [rowspan]="3">
+    <mat-card class="dashboard-card">
+      <mat-card-content>
+        <div class="header">
+          Total Post
+        </div>
+        <div class="body">
+          <div class="icon">
+            <mat-icon class="post-icon">article</mat-icon>
+          </div>
+          <div class="content">
+            {{ dashboard?.totalPosts }}
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </mat-grid-tile>
+
+  <mat-grid-tile [colspan]="4" [rowspan]="3">
+    <mat-card class="dashboard-card">
+      <mat-card-content>
+        <div class="header">
+          Total Comments
+        </div>
+        <div class="body">
+          <div class="icon">
+            <mat-icon class="comment-icon">comment</mat-icon>
+          </div>
+          <div class="content">
+            {{ dashboard?.totalComments }}
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </mat-grid-tile>
+
+</mat-grid-list>
