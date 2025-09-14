@@ -30,8 +30,7 @@ import {AuthorizationManagerService} from './authorization-manager.service';
  */
 export const JwtInterceptor: HttpInterceptorFn = (request, next) => {
   const authService = inject(AuthorizationManagerService);
-  // @ts-ignore
-  const jwtToken = localStorage.getItem('authToken');
+  const jwtToken = authService.getToken();
 
   if (jwtToken) {
     request = request.clone({
