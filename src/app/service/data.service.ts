@@ -1,4 +1,4 @@
-import {HttpClient, HttpParams} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {Injectable} from "@angular/core";
 import {catchError, map, Observable, of} from "rxjs";
 
@@ -50,11 +50,11 @@ export class DataService {
   }
 
   /**
-   * Sends data to the specified endpoint using an HTTP POST request.
+   * Sends a POST request to save the provided data to the specified endpoint.
    *
-   * @param {string} endpoint - The URL to which the data will be sent.
-   * @param {T | T[]} data - The data to be sent, which can be a single object or an array of objects.
-   * @return {Observable<string>} An observable that emits a success message or an error string in case of failure.
+   * @param {string} endpoint - The API endpoint to which the data is sent.
+   * @param {T | T[]} data - The data to be sent to the server, can be a single object or an array of objects.
+   * @return {Observable<T>} An observable emitting the saved data or an error if the request fails.
    */
   save<T>(endpoint: string, data: T | T[]): Observable<T> {
     return this.http.post<T>(endpoint, data).pipe(
@@ -67,11 +67,11 @@ export class DataService {
 
 
   /**
-   * Updates data at the specified endpoint with the provided data.
+   * Sends an HTTP PUT request to update data at the specified endpoint.
    *
    * @param {string} endpoint The API endpoint where the data will be updated.
-   * @param {T} data The data to be updated at the specified endpoint.
-   * @return {Observable<string>} An observable that emits a string indicating the success or failure of the update operation.
+   * @param {T} data The data object to be sent for the update.
+   * @return {Observable<T>} An Observable that emits the updated data or an error if the update fails.
    */
   update<T>(endpoint: string, data: T): Observable<T> {
     return this.http.put<T>(endpoint, data).pipe(
@@ -83,11 +83,11 @@ export class DataService {
   }
 
   /**
-   * Deletes a resource at the specified endpoint with the provided identifier.
+   * Deletes a resource at the specified endpoint combined with the provided value.
    *
-   * @param {string} endpoint - The API endpoint to make the delete request.
-   * @param {number|string} value - The identifier of the resource to delete.
-   * @return {Observable<string>} An observable that emits the result of the delete operation or an error message.
+   * @param {string} endpoint The API endpoint to send the delete request to.
+   * @param {number|string} value The identifier for the resource to delete. Can be a number or a string.
+   * @return {Observable<string>} An Observable which emits the server's response as a string.
    */
   delete(endpoint: string, value: number | string): Observable<string> {
     return this.http.delete<string>(`${endpoint}/${value}`).pipe(

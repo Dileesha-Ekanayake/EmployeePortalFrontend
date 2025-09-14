@@ -97,6 +97,11 @@ export class PostM implements OnInit, OnDestroy {
     this.initialize();
   }
 
+  /**
+   * Initializes the component by loading posts, trending posts,
+   * and setting the current user identifier.
+   * @return {void}
+   */
   initialize(): void {
     this.loadPosts("");
     this.loadTrendingPosts();
@@ -324,12 +329,10 @@ export class PostM implements OnInit, OnDestroy {
   }
 
   /**
-   * Saves a new post by sending a request to the backend service.
-   * Utilizes the dataService to send the post data to a specified API endpoint.
-   * Displays a success or failure notification based on the response from the service.
-   * Resets the post form and reloads it upon a successful save operation.
+   * Saves a new post by creating a post object and sending it to the server
+   * via the data service. Handles both success and error responses.
    *
-   * @return {void} This method does not return any value.
+   * @return {void} This method does not return a value.
    */
   savePost(): void {
 
@@ -393,15 +396,13 @@ export class PostM implements OnInit, OnDestroy {
   }
 
   /**
-   * Updates an existing post with any applicable changes provided by the user.
-   * Prompts the user for confirmation if changes are detected.
+   * Updates an existing post by handling user confirmation, validating changes, and sending an update request to the server.
    *
-   * This method creates a new post object, checks if there are updates to be made,
-   * and confirms with the user before proceeding. If confirmed, it calls the `update`
-   * service method to save the changes. Notifications are displayed to indicate
-   * the operation's success or failure.
+   * The method first ensures there are changes to update, displays a confirmation prompt, then proceeds to send
+   * the updated post details to the server using a data service. On successful update, it resets the post form and
+   * handles the success response. If an error occurs during the update request, it is handled accordingly.
    *
-   * @return void Does not return any value.
+   * @return {void} Does not return a value.
    */
   updatePost(): void {
 
@@ -434,10 +435,12 @@ export class PostM implements OnInit, OnDestroy {
   }
 
   /**
-   * Deletes a post after user confirmation.
+   * Deletes a post based on the given postId. Prompts the user for confirmation before proceeding with the deletion.
+   * Makes a call to the data service to delete the post and updates the post list upon success.
+   * Handles any errors that occur during the deletion process.
    *
    * @param {number} postId - The unique identifier of the post to be deleted.
-   * @return {void} Does not return a value, but confirms deletion and refreshes the post-list or shows an error notification.
+   * @return {void} This method does not return any value.
    */
   deletePost(postId: number): void {
     const userConfirmed = window.confirm("Are you sure you want to delete this post?");

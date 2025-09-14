@@ -6,7 +6,6 @@ import {MatError, MatFormField} from '@angular/material/form-field';
 import {MatInput, MatLabel} from '@angular/material/input';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {DataService} from '../../../service/data.service';
-import {AvNotificationService} from '@avoraui/av-notifications';
 import {Subscription} from 'rxjs';
 import {ApiEndpoints} from '../../../service/api-endpoint';
 import {MatDivider} from '@angular/material/divider';
@@ -58,7 +57,6 @@ export class UserM implements OnInit, OnDestroy {
   constructor(
     private formBuilder: FormBuilder,
     private dataService: DataService,
-    private notificationService: AvNotificationService,
     private simpleResponseHandler: SimpleResponseHandler,
   ) {
 
@@ -75,11 +73,23 @@ export class UserM implements OnInit, OnDestroy {
     this.initialize();
   }
 
+  /**
+   * Initializes the necessary application components by loading users and their respective roles.
+   * Performs setup tasks required for user and role management.
+   *
+   * @return {void} Does not return any value.
+   */
   initialize(): void {
     this.loadUsers();
     this.loadUserRoles();
   }
 
+  /**
+   * Fetches a list of users from the specified API endpoint and updates the component's `users` property.
+   * Handles errors by logging them to the console.
+   *
+   * @return {void} This method does not return a value.
+   */
   loadUsers(): void {
     this.dataSubscriber$.add(
       this.dataService.getData<User>(ApiEndpoints.paths.user).subscribe({
@@ -93,6 +103,12 @@ export class UserM implements OnInit, OnDestroy {
     )
   }
 
+  /**
+   * Fetches user roles data from the API endpoint and assigns the response to the userRoles property.
+   * Handles errors by logging appropriate messages to the console.
+   *
+   * @return {void} This method does not return any value.
+   */
   loadUserRoles(): void {
     this.dataSubscriber$.add(
       this.dataService.getData<Role>(ApiEndpoints.paths.userRole).subscribe({
@@ -106,10 +122,20 @@ export class UserM implements OnInit, OnDestroy {
     )
   }
 
-  expandUserForm() {
+  /**
+   * Toggles the state of the user form expansion.
+   *
+   * @return {void} This method does not return a value.
+   */
+  expandUserForm(): void {
     this.isExpandUserForm = !this.isExpandUserForm;
   }
 
+  /**
+   * Creates a new user request object based on the values retrieved from the user form.
+   *
+   * @return {UserRequest} The created UserRequest object containing userName, password, and roleId.
+   */
   createUser(): UserRequest {
     const user = this.userForm.getRawValue();
     this.createdUser = new UserRequest();
@@ -120,6 +146,13 @@ export class UserM implements OnInit, OnDestroy {
     return this.createdUser;
   }
 
+  /**
+   * Saves a user by creating a user object and sending it to the relevant API endpoint.
+   * It handles success and error responses upon completion of the operation.
+   * Subscribes to the save operation and registers it with the data subscriber.
+   *
+   * @return {void} Does not return a value.
+   */
   saveUser(): void {
     const userToSave = this.createUser();
 
@@ -136,11 +169,25 @@ export class UserM implements OnInit, OnDestroy {
     );
   }
 
+  /**
+   * Resets the current state by clearing user creation data
+   * and reloading the list of users.
+   *
+   * @return {void} No return value.
+   */
   resetAndReload(): void {
     this.clearUserCreation();
     this.loadUsers();
   }
 
+  /**
+   * Resets the user creation form and collapses the form view.
+   *
+   * This method resets the `userForm` and sets the `isExpandUserForm` property to `false`,
+   * effectively clearing any data entered and collapsing the user creation interface.
+   *
+   * @return {void} This method does not return a value.
+   */
   clearUserCreation(): void {
     this.userForm.reset();
     this.isExpandUserForm = false;
