@@ -24,6 +24,7 @@ import {CommentRequest} from '../../../entity/CommentRequest';
 import {Like} from '../../../entity/Like';
 import {NgClass} from '@angular/common';
 import {MatButtonToggle, MatButtonToggleGroup} from '@angular/material/button-toggle';
+import {SimpleResponseHandler} from '../../../util/simple-response-handler';
 
 @Component({
   selector: 'app-portal',
@@ -82,6 +83,7 @@ export class PostM implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private dataService: DataService,
     private notificationService: AvNotificationService,
+    private simpleResponseHandler: SimpleResponseHandler,
     protected authorizationManagerService: AuthorizationManagerService,
   ) {
 
@@ -335,17 +337,12 @@ export class PostM implements OnInit, OnDestroy {
 
     this.dataSubscriber$.add(
       this.dataService.save<PostRequest>(ApiEndpoints.paths.post, postToSave).subscribe({
-        next: (response) => {
-          this.notificationService.showSuccess("Successfully created post.", {
-            theme: "light"
-          })
+        next: (response: PostRequest) => {
+          this.simpleResponseHandler.handleSuccessResponse('post')
          this.resetAndReloadPostForm();
         },
         error: (error) => {
-          this.notificationService.showFailure("Failed to create post.", {
-            theme: "light"
-          })
-          console.error("Error creating post:", error.message);
+          this.simpleResponseHandler.handleErrorResponse(error);
         }
       })
     )
@@ -425,17 +422,12 @@ export class PostM implements OnInit, OnDestroy {
 
     this.dataSubscriber$.add(
       this.dataService.update<PostRequest>(ApiEndpoints.paths.post, postToUpdate).subscribe({
-        next: (response) => {
-          this.notificationService.showSuccess("Successfully updated post.", {
-            theme: "light"
-          })
+        next: (response: PostRequest) => {
+          this.simpleResponseHandler.handleSuccessResponse('post')
           this.resetAndReloadPostForm();
         },
         error: (error) => {
-          this.notificationService.showFailure("Failed to create post.", {
-            theme: "light"
-          })
-          console.error("Error creating post:", error.message);
+          this.simpleResponseHandler.handleErrorResponse(error);
         }
       })
     )
@@ -462,9 +454,7 @@ export class PostM implements OnInit, OnDestroy {
           this.loadPosts("");
         },
         error: (error) => {
-          this.notificationService.showFailure("Failed to delete post. : " + error.message, {
-            theme: "light"
-          })
+          this.simpleResponseHandler.handleErrorResponse(error);
         }
       })
     )

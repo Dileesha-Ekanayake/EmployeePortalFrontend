@@ -35,7 +35,7 @@
                 <mat-label>Select Role</mat-label>
                 <mat-select formControlName="userRole">
                   @for (role of userRoles; track role.id) {
-                    <mat-option [value]="role.id">{{ role.name }}</mat-option>
+                    <mat-option [value]="role">{{ role.name }}</mat-option>
                   }
                 </mat-select>
                 @if (userForm.get('userRole')?.invalid && userForm.get('userRole')?.touched) {

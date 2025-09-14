@@ -16,6 +16,7 @@ import {NgClass} from '@angular/common';
 import {Role} from '../../../entity/Role';
 import {MatOption, MatSelect} from '@angular/material/select';
 import {UserRequest} from '../../../entity/UserRequest';
+import {SimpleResponseHandler} from '../../../util/simple-response-handler';
 
 @Component({
   selector: 'app-user',
@@ -58,6 +59,7 @@ export class UserM implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private dataService: DataService,
     private notificationService: AvNotificationService,
+    private simpleResponseHandler: SimpleResponseHandler,
   ) {
 
     this.userForm = this.formBuilder.group({
@@ -123,33 +125,16 @@ export class UserM implements OnInit, OnDestroy {
 
     this.dataSubscriber$.add(
       this.dataService.save<UserRequest>(ApiEndpoints.paths.user, userToSave).subscribe({
-        next: (res: any) => {
-          if (res.status === 201) {
-            this.notificationService.showSuccess("Successfully created user", { theme: "light" });
-            this.resetAndReload();
-          }else {
-            this.notificationService.showFailure("Failed to create user", { theme: "light" });
-            this.resetAndReload();
-          }
+        next: (createdUser: UserRequest) => {
+          this.simpleResponseHandler.handleSuccessResponse('user');
+          this.resetAndReload();
         },
         error: (error) => {
-          // Check error status and show appropriate message
-          if (error.status === 400) {
-            // Bad Request: validation errors or duplicate username
-            const message = error.error?.message || "Invalid input";
-            this.notificationService.showFailure("Failed to create user: " + message, { theme: "light" });
-          } else if (error.status === 500) {
-            // Internal server error
-            this.notificationService.showFailure("Server error occurred while creating user", { theme: "light" });
-          } else {
-            // Other errors
-            this.notificationService.showFailure("Unexpected error: " + error.message, { theme: "light" });
-          }
+          this.simpleResponseHandler.handleErrorResponse(error);
         }
       })
     );
   }
-
 
   resetAndReload(): void {
     this.clearUserCreation();

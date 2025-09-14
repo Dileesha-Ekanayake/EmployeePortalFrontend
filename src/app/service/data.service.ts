@@ -56,14 +56,15 @@ export class DataService {
    * @param {T | T[]} data - The data to be sent, which can be a single object or an array of objects.
    * @return {Observable<string>} An observable that emits a success message or an error string in case of failure.
    */
-  save<T>(endpoint: string, data: T | T[]): Observable<string> {
-    return this.http.post<string>(endpoint, data).pipe(
+  save<T>(endpoint: string, data: T | T[]): Observable<T> {
+    return this.http.post<T>(endpoint, data).pipe(
       catchError((error) => {
         console.error(`Error saving data to ${endpoint}`, error);
-        return of('Error');
+        throw error;
       })
     );
   }
+
 
   /**
    * Updates data at the specified endpoint with the provided data.
@@ -72,11 +73,11 @@ export class DataService {
    * @param {T} data The data to be updated at the specified endpoint.
    * @return {Observable<string>} An observable that emits a string indicating the success or failure of the update operation.
    */
-  update<T>(endpoint: string, data: T): Observable<string> {
-    return this.http.put<string>(endpoint, data).pipe(
+  update<T>(endpoint: string, data: T): Observable<T> {
+    return this.http.put<T>(endpoint, data).pipe(
       catchError((error) => {
         console.error(`Error updating data at ${endpoint}`, error);
-        return of('Error');
+        throw error;
       })
     );
   }
@@ -92,7 +93,7 @@ export class DataService {
     return this.http.delete<string>(`${endpoint}/${value}`).pipe(
       catchError((error) => {
         console.error(`Error deleting data at ${endpoint}/${value}`, error);
-        return of('Error');
+        throw error;
       })
     );
   }
