@@ -24,7 +24,7 @@ import {CommentRequest} from '../../../entity/CommentRequest';
 import {Like} from '../../../entity/Like';
 import {NgClass} from '@angular/common';
 import {MatButtonToggle, MatButtonToggleGroup} from '@angular/material/button-toggle';
-import {SimpleResponseHandler} from '../../../util/simple-response-handler';
+import {SimpleResponseHandlerService} from '../../../util/simple-response-handler.service';
 
 @Component({
   selector: 'app-portal',
@@ -83,7 +83,7 @@ export class PostM implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private dataService: DataService,
     private notificationService: AvNotificationService,
-    private simpleResponseHandler: SimpleResponseHandler,
+    private simpleResponseHandlerService: SimpleResponseHandlerService,
     protected authorizationManagerService: AuthorizationManagerService,
   ) {
 
@@ -341,11 +341,11 @@ export class PostM implements OnInit, OnDestroy {
     this.dataSubscriber$.add(
       this.dataService.save<PostRequest>(ApiEndpoints.paths.post, postToSave).subscribe({
         next: (response: PostRequest) => {
-          this.simpleResponseHandler.handleSuccessResponse('post')
+          this.simpleResponseHandlerService.handleSuccessResponse('post')
          this.resetAndReloadPostForm();
         },
         error: (error) => {
-          this.simpleResponseHandler.handleErrorResponse(error);
+          this.simpleResponseHandlerService.handleErrorResponse(error);
         }
       })
     )
@@ -424,11 +424,11 @@ export class PostM implements OnInit, OnDestroy {
     this.dataSubscriber$.add(
       this.dataService.update<PostRequest>(ApiEndpoints.paths.post, postToUpdate).subscribe({
         next: (response: PostRequest) => {
-          this.simpleResponseHandler.handleSuccessResponse('post')
+          this.simpleResponseHandlerService.handleSuccessResponse('post')
           this.resetAndReloadPostForm();
         },
         error: (error) => {
-          this.simpleResponseHandler.handleErrorResponse(error);
+          this.simpleResponseHandlerService.handleErrorResponse(error);
         }
       })
     )
@@ -457,7 +457,7 @@ export class PostM implements OnInit, OnDestroy {
           this.loadPosts("");
         },
         error: (error) => {
-          this.simpleResponseHandler.handleErrorResponse(error);
+          this.simpleResponseHandlerService.handleErrorResponse(error);
         }
       })
     )

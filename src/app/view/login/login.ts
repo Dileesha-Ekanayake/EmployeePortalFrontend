@@ -8,7 +8,7 @@ import {AuthenticateService} from '../../auth/authenticate.service';
 import {MatGridList, MatGridTile} from '@angular/material/grid-list';
 import {Subscription} from 'rxjs';
 import {AuthorizationManagerService} from '../../auth/authorization-manager.service';
-import {SimpleResponseHandler} from '../../util/simple-response-handler';
+import {SimpleResponseHandlerService} from '../../util/simple-response-handler.service';
 import {AvNotificationService} from '@avoraui/av-notifications';
 
 @Component({
@@ -42,7 +42,7 @@ export class Login implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private router: Router,
     private authenticateService: AuthenticateService,
-    private simpleResponseHandler: SimpleResponseHandler,
+    private simpleResponseHandlerService: SimpleResponseHandlerService,
     private authorizationManagerService: AuthorizationManagerService,
     private notificationService: AvNotificationService,
   ) {
@@ -93,7 +93,7 @@ export class Login implements OnInit, OnDestroy {
           }
         },
         error: (error) => {
-          this.simpleResponseHandler.handleErrorResponse(error);
+          this.simpleResponseHandlerService.handleErrorResponse(error);
         }
       })
     )

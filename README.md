@@ -107,7 +107,7 @@ EmployeePortalFrontend/
 │   │   │   ├── api-endpoint.ts
 │   │   │   └── data.service.ts
 │   │   ├── util/                    # Utility functions & helpers
-│   │   │   └── simple-response-handler.ts
+│   │   │   └── simple-response-handler.service.ts
 │   │   ├── view/                    # Page components & views
 │   │   │   ├── dashboard/           # Dashboard
 │   │   │   ├── login/               # Authentication pages

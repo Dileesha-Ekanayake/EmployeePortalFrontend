@@ -15,7 +15,7 @@ import {NgClass} from '@angular/common';
 import {Role} from '../../../entity/Role';
 import {MatOption, MatSelect} from '@angular/material/select';
 import {UserRequest} from '../../../entity/UserRequest';
-import {SimpleResponseHandler} from '../../../util/simple-response-handler';
+import {SimpleResponseHandlerService} from '../../../util/simple-response-handler.service';
 
 @Component({
   selector: 'app-user',
@@ -57,7 +57,7 @@ export class UserM implements OnInit, OnDestroy {
   constructor(
     private formBuilder: FormBuilder,
     private dataService: DataService,
-    private simpleResponseHandler: SimpleResponseHandler,
+    private simpleResponseHandlerService: SimpleResponseHandlerService,
   ) {
 
     this.userForm = this.formBuilder.group({
@@ -159,11 +159,11 @@ export class UserM implements OnInit, OnDestroy {
     this.dataSubscriber$.add(
       this.dataService.save<UserRequest>(ApiEndpoints.paths.user, userToSave).subscribe({
         next: (createdUser: UserRequest) => {
-          this.simpleResponseHandler.handleSuccessResponse('user');
+          this.simpleResponseHandlerService.handleSuccessResponse('user');
           this.resetAndReload();
         },
         error: (error) => {
-          this.simpleResponseHandler.handleErrorResponse(error);
+          this.simpleResponseHandlerService.handleErrorResponse(error);
         }
       })
     );

@@ -8,7 +8,7 @@ import {AvNotificationService} from '@avoraui/av-notifications';
 @Injectable({
   providedIn: 'root'
 })
-export class SimpleResponseHandler {
+export class SimpleResponseHandlerService {
 
   constructor(
     private notificationService: AvNotificationService
