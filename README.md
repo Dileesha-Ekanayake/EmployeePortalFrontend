@@ -14,7 +14,6 @@ An Angular frontend application for the Employee Collaboration Portal that provi
 - **Dashboard**: Comprehensive metrics and user management
 - **Trending Content**: Highlight popular posts with 5+ likes
 - **Form Validation**: Real-time validation with user-friendly error messages
-- **Responsive Design**: Works seamlessly on desktop, tablet, and mobile
 
 ## 🛠️ Technology Stack
 
