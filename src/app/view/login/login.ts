@@ -68,6 +68,14 @@ export class Login implements OnInit, OnDestroy {
 
   }
 
+  /**
+   * Authenticates a user by validating the username and password from the login form.
+   * Initiates a service call to authenticate the credentials and handles the response accordingly.
+   * On successful authentication, it stores the authentication details and navigates to the main post page.
+   * On error, it handles the response using the error handler.
+   *
+   * @return {void} This method does not return a value.
+   */
   authenticate(): void {
     let username = this.loginForm.controls["username"].value;
     let password = this.loginForm.controls["password"].value;
@@ -91,6 +99,12 @@ export class Login implements OnInit, OnDestroy {
     )
   }
 
+  /**
+   * Lifecycle hook called when the component is destroyed.
+   * Used to perform cleanup activities such as unsubscribing from observables to prevent memory leaks.
+   *
+   * @return {void} Does not return any value.
+   */
   ngOnDestroy(): void {
     this.dataSubscriber$.unsubscribe();
   }
